@@ -127,9 +127,12 @@ export default function AdministrationPage() {
               <p className="text-gray-600 mb-6">
                 Gérer les projets et réalisations affichés sur le site
               </p>
-              <button className="px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full">
+              <a
+                href="/administration/realisations"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
+              >
                 Gérer les réalisations
-              </button>
+              </a>
             </motion.div>
 
             {/* Statistiques Card */}

@@ -1,68 +1,99 @@
 import mongoose, { Schema, model, models } from "mongoose";
 
+export interface IRealisationPhotos {
+  general?: string[];
+  cuisine?: string[];
+  douche?: string[];
+  salon?: string[];
+  lit?: string[];
+  technique?: string[];
+  exterieur?: string[];
+}
+
 export interface IRealisation {
-  title: string;
-  description: string;
-  category: "complet" | "partiel" | "accessoire";
-  images: string[];
-  coverImage: string;
-  vehicleType: string; // Ex: "Fiat Ducato L2H2"
-  year?: number;
-  duration?: string; // Ex: "3 mois"
-  features: string[]; // Ex: ["Isolation liège", "Installation électrique Victron"]
-  client?: {
-    name?: string;
-    testimonial?: string;
+  // Infos principales
+  numero: string; // Ex: "#5"
+  titre: string; // Ex: "FIAT DUCATO H2L3 - 2025"
+  type: "amenagement_complet" | "renovation"; 
+  description: string; // Description générale/intro
+  coverImage: string; // Image de couverture
+  photos: IRealisationPhotos; // Photos catégorisées
+  
+  // Détails véhicule
+  vehicule?: {
+    marque?: string;
+    modele?: string;
+    annee?: number;
+    dimensions?: string; // Ex: "H2L3"
   };
+  
+  // Sections optionnelles pour aménagements complets
+  nouveautes?: string[]; // Liste des nouveautés
+  cuisine?: string; // Description bloc cuisine
+  douche?: string; // Description partie douche
+  salon?: string; // Description salon/banquettes
+  lit?: string; // Description lit/couchage
+  autonomie?: string; // Description système autonomie
+  technique?: string; // Détails techniques
+  
+  // Partenaires
+  partenaires?: string[];
+  
+  // Publication
   published: boolean;
-  order: number; // Pour l'ordre d'affichage
+  order: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const RealisationSchema = new Schema<IRealisation>(
   {
-    title: {
+    numero: {
+      type: String,
+      required: [true, "Le numéro est requis"],
+      trim: true,
+    },
+    titre: {
       type: String,
       required: [true, "Le titre est requis"],
       trim: true,
+    },
+    type: {
+      type: String,
+      enum: ["amenagement_complet", "renovation"],
+      required: [true, "Le type est requis"],
     },
     description: {
       type: String,
       required: [true, "La description est requise"],
     },
-    category: {
-      type: String,
-      enum: ["complet", "partiel", "accessoire"],
-      required: [true, "La catégorie est requise"],
-      default: "complet",
-    },
-    images: {
-      type: [String],
-      default: [],
-    },
     coverImage: {
       type: String,
       required: [true, "L'image de couverture est requise"],
     },
-    vehicleType: {
-      type: String,
-      required: [true, "Le type de véhicule est requis"],
+    photos: {
+      general: [String],
+      cuisine: [String],
+      douche: [String],
+      salon: [String],
+      lit: [String],
+      technique: [String],
+      exterieur: [String],
     },
-    year: {
-      type: Number,
+    vehicule: {
+      marque: String,
+      modele: String,
+      annee: Number,
+      dimensions: String,
     },
-    duration: {
-      type: String,
-    },
-    features: {
-      type: [String],
-      default: [],
-    },
-    client: {
-      name: String,
-      testimonial: String,
-    },
+    nouveautes: [String],
+    cuisine: String,
+    douche: String,
+    salon: String,
+    lit: String,
+    autonomie: String,
+    technique: String,
+    partenaires: [String],
     published: {
       type: Boolean,
       default: false,
@@ -77,8 +108,8 @@ const RealisationSchema = new Schema<IRealisation>(
   }
 );
 
-// Index pour l'ordre d'affichage
-RealisationSchema.index({ order: 1, createdAt: -1 });
+// Index pour l'ordre d'affichage et le type
+RealisationSchema.index({ type: 1, order: 1, createdAt: -1 });
 
 // Éviter la re-compilation du modèle en développement
 const Realisation =

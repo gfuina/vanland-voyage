@@ -229,12 +229,29 @@ export function Footer() {
                 Mentions légales
               </Link>
               <span className="text-white/30">|</span>
-            <Link
-              href="/cgv"
-              className="text-white/80 hover:text-accent transition-colors"
-            >
-              CGV Atelier
-            </Link>
+              <Link
+                href="/cgv"
+                className="text-white/80 hover:text-accent transition-colors"
+              >
+                CGV Atelier
+              </Link>
+              <span className="text-white/30">|</span>
+              <Link
+                href="/cgv-boutique"
+                className="text-white/80 hover:text-accent transition-colors"
+              >
+                CGV Boutique
+              </Link>
+              <span className="text-white/30">|</span>
+              <button
+                onClick={() => {
+                  localStorage.removeItem("cookieConsent");
+                  window.location.reload();
+                }}
+                className="text-white/80 hover:text-accent transition-colors"
+              >
+                🍪 Cookies
+              </button>
             </div>
           </div>
         </div>
