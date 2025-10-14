@@ -1,0 +1,11 @@
+# robots.txt for vanland-voyage.fr
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /administration/
+Disallow: /admin-login/
+
+# Sitemaps
+Sitemap: https://vanland-voyage.fr/sitemap.xml
+

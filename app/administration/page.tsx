@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -8,6 +8,35 @@ import Image from "next/image";
 export default function AdministrationPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState({
+    realisations: 0,
+    contacts: 0,
+    nouveauxContacts: 0,
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      // Récupérer les réalisations
+      const realisationsRes = await fetch("/api/realisations");
+      const realisationsData = await realisationsRes.json();
+      
+      // Récupérer les contacts
+      const contactsRes = await fetch("/api/contact");
+      const contactsData = await contactsRes.json();
+      
+      setStats({
+        realisations: realisationsData.realisations?.filter((r: { published: boolean }) => r.published).length || 0,
+        contacts: contactsData.contacts?.length || 0,
+        nouveauxContacts: contactsData.contacts?.filter((c: { status: string }) => c.status === "nouveau").length || 0,
+      });
+    } catch (error) {
+      console.error("Erreur lors du chargement des stats:", error);
+    }
+  };
 
   const handleLogout = async () => {
     setLoading(true);
@@ -135,7 +164,7 @@ export default function AdministrationPage() {
               </a>
             </motion.div>
 
-            {/* Statistiques Card */}
+            {/* Contacts Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -153,32 +182,37 @@ export default function AdministrationPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
               </div>
               <h3 className="text-xl font-bold text-navy mb-2">
-                Statistiques
+                Demandes de contact
               </h3>
               <p className="text-gray-600 mb-6">
-                Bientôt disponible : analytics et statistiques du site
+                Gérer les demandes de contact reçues via le formulaire
+                {stats.nouveauxContacts > 0 && (
+                  <span className="block mt-2 text-secondary font-bold">
+                    {stats.nouveauxContacts} nouvelle(s) demande(s)
+                  </span>
+                )}
               </p>
-              <button
-                disabled
-                className="px-6 py-3 bg-gray-200 text-gray-500 font-bold rounded-2xl cursor-not-allowed w-full"
+              <a
+                href="/administration/contacts"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
               >
-                Prochainement
-              </button>
+                Voir les contacts
+              </a>
             </motion.div>
 
-            {/* Paramètres Card */}
+            {/* Analytics Card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/50 hover:shadow-xl transition-all duration-300"
             >
-              <div className="w-16 h-16 bg-gradient-to-br from-navy to-primary rounded-2xl flex items-center justify-center mb-6 -rotate-2">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-2xl flex items-center justify-center mb-6 -rotate-2">
                 <svg
                   className="w-8 h-8 text-white"
                   fill="none"
@@ -189,27 +223,60 @@ export default function AdministrationPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                   />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-2">
+                Analytics & Stats
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Consulter les statistiques de visites et de performances du site
+              </p>
+              <a
+                href="/administration/analytics"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
+              >
+                Voir les stats
+              </a>
+            </motion.div>
+
+            {/* Partenaires Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/50 hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mb-6 rotate-1">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-navy mb-2">Paramètres</h3>
+              <h3 className="text-xl font-bold text-navy mb-2">
+                Partenaires
+              </h3>
               <p className="text-gray-600 mb-6">
-                Bientôt disponible : configuration générale du site
+                Gérer les partenaires affichés sur le site
               </p>
-              <button
-                disabled
-                className="px-6 py-3 bg-gray-200 text-gray-500 font-bold rounded-2xl cursor-not-allowed w-full"
+              <a
+                href="/administration/partenaires"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
               >
-                Prochainement
-              </button>
+                Gérer les partenaires
+              </a>
             </motion.div>
+
           </div>
 
           {/* Quick Stats */}
@@ -222,16 +289,16 @@ export default function AdministrationPage() {
             <h3 className="text-2xl font-bold mb-6">Aperçu rapide</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                <div className="text-4xl font-bold text-accent mb-2">0</div>
+                <div className="text-4xl font-bold text-accent mb-2">{stats.realisations}</div>
                 <div className="text-white/80">Réalisations publiées</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                <div className="text-4xl font-bold text-accent mb-2">-</div>
-                <div className="text-white/80">Visiteurs ce mois</div>
+                <div className="text-4xl font-bold text-accent mb-2">{stats.contacts}</div>
+                <div className="text-white/80">Demandes de contact</div>
               </div>
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
-                <div className="text-4xl font-bold text-accent mb-2">-</div>
-                <div className="text-white/80">Demandes de contact</div>
+                <div className="text-4xl font-bold text-accent mb-2">{stats.nouveauxContacts}</div>
+                <div className="text-white/80">Nouvelles demandes</div>
               </div>
             </div>
           </motion.div>

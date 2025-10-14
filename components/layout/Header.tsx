@@ -76,11 +76,7 @@ export function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`lg:hidden relative z-10 p-2 transition-colors ${
-              isScrolled || !isHomepage 
-                ? "text-primary hover:text-secondary" 
-                : "text-white hover:text-accent"
-            }`}
+            className="lg:hidden relative z-10 p-2 text-white hover:text-accent transition-colors"
             aria-label="Toggle menu"
           >
             <svg

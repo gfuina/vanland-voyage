@@ -448,7 +448,12 @@ function Step1({
   setFormData,
   onUpload,
   uploading,
-}: any) {
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+  onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
+  uploading: boolean;
+}) {
   return (
     <div className="space-y-6">
       <div>
@@ -632,7 +637,13 @@ function Step1({
 }
 
 // Step 2: Détails véhicule
-function Step2({ formData, setFormData }: any) {
+function Step2({
+  formData,
+  setFormData,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+}) {
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-navy">Détails du véhicule</h3>
@@ -718,7 +729,17 @@ function Step2({ formData, setFormData }: any) {
 }
 
 // Step 3 pour aménagements complets
-function Step3Amenagement({ formData, setFormData }: any) {
+function Step3Amenagement({
+  formData,
+  setFormData,
+  onUpload,
+  uploading,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+  onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
+  uploading: boolean;
+}) {
   const [newNouveau, setNewNouveau] = useState("");
 
   const addNouveau = () => {
@@ -734,7 +755,7 @@ function Step3Amenagement({ formData, setFormData }: any) {
   const removeNouveau = (index: number) => {
     setFormData({
       ...formData,
-      nouveautes: formData.nouveautes.filter((_: any, i: number) => i !== index),
+      nouveautes: formData.nouveautes?.filter((_: string, i: number) => i !== index),
     });
   };
 
@@ -878,7 +899,13 @@ function Step3Amenagement({ formData, setFormData }: any) {
 }
 
 // Step 3 pour rénovations
-function Step3Renovation({ formData, setFormData }: any) {
+function Step3Renovation({
+  formData,
+  setFormData,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+}) {
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-navy">Détails de la rénovation</h3>
@@ -903,7 +930,17 @@ function Step3Renovation({ formData, setFormData }: any) {
 }
 
 // Step 4: Photos (aménagements uniquement)
-function Step4Photos({ formData, setFormData, onUpload, uploading }: any) {
+function Step4Photos({
+  formData,
+  setFormData,
+  onUpload,
+  uploading,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+  onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
+  uploading: boolean;
+}) {
   const categories = [
     { key: "general", label: "Générales" },
     { key: "cuisine", label: "Cuisine" },
@@ -919,8 +956,8 @@ function Step4Photos({ formData, setFormData, onUpload, uploading }: any) {
       ...formData,
       photos: {
         ...formData.photos,
-        [category]: formData.photos[category].filter(
-          (_: any, i: number) => i !== index
+        [category]: (formData.photos as Record<string, string[]>)?.[category]?.filter(
+          (_: string, i: number) => i !== index
         ),
       },
     });
@@ -939,7 +976,7 @@ function Step4Photos({ formData, setFormData, onUpload, uploading }: any) {
             {cat.label}
           </label>
           <div className="grid grid-cols-3 gap-4">
-            {formData.photos?.[cat.key]?.map((url: string, i: number) => (
+            {formData.photos?.[cat.key as keyof Realisation["photos"]]?.map((url: string, i: number) => (
               <div key={i} className="relative aspect-video rounded-xl overflow-hidden">
                 <Image src={url} alt="" fill className="object-cover" />
                 <button
@@ -968,7 +1005,7 @@ function Step4Photos({ formData, setFormData, onUpload, uploading }: any) {
                 accept="image/*"
                 onChange={(e) => {
                   if (e.target.files?.[0])
-                    onUpload(e.target.files[0], cat.key as any);
+                    onUpload(e.target.files[0], cat.key as keyof Realisation["photos"]);
                 }}
                 className="hidden"
               />
@@ -998,7 +1035,13 @@ function Step4Photos({ formData, setFormData, onUpload, uploading }: any) {
 }
 
 // Step 5: Final (partenaires)
-function Step5Final({ formData, setFormData }: any) {
+function Step5Final({
+  formData,
+  setFormData,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+}) {
   const [newPartenaire, setNewPartenaire] = useState("");
 
   const addPartenaire = () => {
@@ -1014,7 +1057,7 @@ function Step5Final({ formData, setFormData }: any) {
   const removePartenaire = (index: number) => {
     setFormData({
       ...formData,
-      partenaires: formData.partenaires.filter((_: any, i: number) => i !== index),
+      partenaires: formData.partenaires?.filter((_: string, i: number) => i !== index),
     });
   };
 

@@ -1,13 +1,8 @@
-import { Metadata } from "next";
+"use client";
+
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "Politique de Cookies | Vanland Voyage",
-  description:
-    "Politique de gestion des cookies - Comment nous utilisons les cookies sur le site Vanland Voyage",
-};
 
 export default function PolitiqueCookiesPage() {
   return (

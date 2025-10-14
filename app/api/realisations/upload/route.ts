@@ -41,10 +41,10 @@ export async function POST(request: NextRequest) {
     console.log("Upload réussi:", blob.url);
 
     return NextResponse.json({ url: blob.url });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Erreur upload:", error);
     return NextResponse.json(
-      { error: error.message || "Erreur lors de l'upload" },
+      { error: error instanceof Error ? error.message : "Erreur lors de l'upload" },
       { status: 500 }
     );
   }

@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
     const published = searchParams.get("published");
 
-    let query: any = {};
+    const query: { type?: string; published?: boolean } = {};
 
     if (type) {
       query.type = type;
@@ -44,10 +44,10 @@ export async function POST(request: NextRequest) {
     const realisation = await Realisation.create(body);
 
     return NextResponse.json(realisation, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Erreur POST realisation:", error);
     return NextResponse.json(
-      { error: error.message || "Erreur lors de la création" },
+      { error: error instanceof Error ? error.message : "Erreur lors de la création" },
       { status: 500 }
     );
   }

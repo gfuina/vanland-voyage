@@ -53,10 +53,10 @@ export async function PUT(
     }
 
     return NextResponse.json(realisation);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Erreur PUT realisation:", error);
     return NextResponse.json(
-      { error: error.message || "Erreur lors de la mise à jour" },
+      { error: error instanceof Error ? error.message : "Erreur lors de la mise à jour" },
       { status: 500 }
     );
   }

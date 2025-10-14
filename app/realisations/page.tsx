@@ -69,7 +69,7 @@ export default function RealisationsPage() {
       <Header />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <section className="py-20 bg-gradient-to-br from-navy to-primary text-white relative overflow-hidden">
+        <section className="pt-32 pb-20 lg:pt-40 lg:pb-32 bg-gradient-to-br from-navy to-primary text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-accent/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-secondary/10 rounded-full blur-3xl" />
 
