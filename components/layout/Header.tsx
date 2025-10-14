@@ -27,7 +27,7 @@ export function Header() {
     { label: "Votre projet complet", href: "/projet" },
     { label: "Nous connaitre", href: "/about" },
     { label: "Boutique", href: "/boutique" },
-    { label: "CGV - Atelier", href: "/cgv" },
+    // { label: "CGV - Atelier", href: "/cgv" },
   ];
 
   return (
