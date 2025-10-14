@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import Image from "next/image";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -51,7 +50,7 @@ export default function ContactPage() {
       } else {
         setError(data.error || "Une erreur est survenue");
       }
-    } catch (err) {
+    } catch {
       setError("Erreur de connexion au serveur");
     } finally {
       setLoading(false);

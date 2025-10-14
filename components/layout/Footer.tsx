@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

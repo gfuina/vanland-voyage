@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD!;
 
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE() {
   const response = NextResponse.json(
     { success: true, message: "Déconnexion réussie" },
     { status: 200 }

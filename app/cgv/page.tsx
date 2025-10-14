@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "CGV - Conditions Générales de Vente | Vanland Voyage",
@@ -266,7 +267,7 @@ export default function CGVPage() {
 
         {/* Back to home */}
         <div className="mt-16 text-center">
-          <a
+          <Link
             href="/"
             className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-navy font-bold text-lg rounded-2xl hover:bg-accent/90 hover:scale-105 hover:rotate-0 -rotate-1 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
@@ -284,7 +285,7 @@ export default function CGVPage() {
               />
             </svg>
             Retour à l'accueil
-          </a>
+          </Link>
         </div>
       </div>
       </div>

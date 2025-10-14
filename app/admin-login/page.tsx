@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
@@ -32,7 +33,7 @@ export default function AdminLoginPage() {
       } else {
         setError(data.error || "Erreur d'authentification");
       }
-    } catch (err) {
+    } catch {
       setError("Erreur de connexion");
     } finally {
       setLoading(false);
@@ -111,12 +112,12 @@ export default function AdminLoginPage() {
 
           {/* Back to home */}
           <div className="mt-8 text-center">
-            <a
+            <Link
               href="/"
               className="text-sm text-gray-600 hover:text-secondary transition-colors"
             >
               ← Retour au site
-            </a>
+            </Link>
           </div>
         </div>
       </motion.div>
