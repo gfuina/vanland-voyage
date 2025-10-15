@@ -65,3 +65,19 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--blue);
 }
+
+/* Swiper pagination customization */
+.swiper-pagination-bullet {
+  background: var(--navy) !important;
+  opacity: 0.3 !important;
+  width: 8px !important;
+  height: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1 !important;
+  background: var(--yellow) !important;
+  width: 24px !important;
+  border-radius: 4px !important;
+}

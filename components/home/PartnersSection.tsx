@@ -3,6 +3,12 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { getAnimation, getStaggerAnimation } from "@/lib/animations";
 
 interface Partner {
   _id: string;
@@ -15,6 +21,8 @@ interface Partner {
 export function PartnersSection() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = useIsMobile();
+  const animation = getAnimation(isMobile);
 
   useEffect(() => {
     fetchPartners();
@@ -45,53 +53,99 @@ export function PartnersSection() {
   }
 
   return (
-    <section className="py-20 lg:py-32 bg-gray-50 relative overflow-hidden">
+    <section className="py-20 lg:py-32 bg-navy relative" style={{ marginTop: '-1px', marginBottom: '-1px' }}>
+      {/* Wave separator top */}
+      <div className="absolute top-0 left-0 w-full overflow-hidden" style={{ lineHeight: 0, marginTop: '-1px' }}>
+        <svg
+          className="w-full h-16 lg:h-24"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+          style={{ display: 'block', verticalAlign: 'bottom' }}
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            className="fill-gray-50"
+          />
+        </svg>
+      </div>
+
       {/* Background decorations */}
-      <div className="absolute top-1/4 left-0 w-1/2 h-1/2 bg-secondary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-1/3 h-1/3 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-0 w-1/2 h-1/2 bg-secondary/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-0 w-1/3 h-1/3 bg-accent/10 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-block px-5 py-2.5 bg-secondary text-white font-bold text-sm rounded-2xl mb-4 shadow-md rotate-1 hover:rotate-0 transition-transform duration-300"
-          >
+        <motion.div {...animation} className="text-center mb-16">
+          <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md rotate-1 hover:rotate-0 transition-transform duration-300">
             Nos Partenaires
-          </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl lg:text-5xl font-bold text-navy mb-4"
-          >
+          </span>
+          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
             Nos partenaires pour{" "}
-            <span className="text-secondary">vos projets !</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gray-600 text-lg max-w-3xl mx-auto"
-          >
+            <span className="text-accent">vos projets !</span>
+          </h2>
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             Des marques de confiance pour équiper votre van avec du matériel de qualité
-          </motion.p>
+          </p>
+        </motion.div>
+
+        {/* Mobile Carousel */}
+        <div className="md:hidden mb-16">
+          <Swiper
+            modules={[Autoplay, Pagination]}
+            spaceBetween={16}
+            slidesPerView={1.1}
+            centeredSlides={false}
+            autoplay={{
+              delay: 3500,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            className="!pb-12"
+          >
+            {partners.map((partner, index) => (
+              <SwiperSlide key={partner._id}>
+                <div className={`bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-100 ${
+                  index % 3 === 0 ? "rotate-1" : index % 3 === 1 ? "-rotate-1" : "rotate-2"
+                }`}>
+                  {/* Logo Container */}
+                  <div className="relative h-24 mb-6 flex items-center justify-center bg-gray-50 rounded-2xl p-4">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      fill
+                      className="object-contain p-2"
+                      sizes="100vw"
+                    />
+                  </div>
+
+                  {/* Partner Info */}
+                  <div className="text-center">
+                    <h3 className="text-xl font-bold text-navy mb-2">
+                      {partner.name}
+                    </h3>
+                    <p className="text-secondary font-semibold mb-2">
+                      {partner.description}
+                    </p>
+                    <p className="text-sm text-gray-600">{partner.subtitle}</p>
+                  </div>
+
+                  {/* Decorative element */}
+                  <div className="mt-6 h-1 w-16 bg-accent rounded-full mx-auto" />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
-        {/* Partners Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Desktop Grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
           {partners.map((partner, index) => (
             <motion.div
               key={partner._id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              {...getStaggerAnimation(isMobile, index)}
               className={`group bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${rotations[index % rotations.length]}`}
             >
               {/* Logo Container */}
@@ -124,13 +178,10 @@ export function PartnersSection() {
 
         {/* CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.8 }}
+          {...animation}
           className="text-center mt-16"
         >
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             Intéressé par nos équipements partenaires ?
           </p>
           <a
@@ -153,6 +204,22 @@ export function PartnersSection() {
             </svg>
           </a>
         </motion.div>
+      </div>
+
+      {/* Wave separator bottom */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden rotate-180" style={{ lineHeight: 0, marginBottom: '-1px' }}>
+        <svg
+          className="w-full h-16 lg:h-24"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+          style={{ display: 'block', verticalAlign: 'bottom' }}
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            className="fill-white"
+          />
+        </svg>
       </div>
     </section>
   );
