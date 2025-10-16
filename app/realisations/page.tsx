@@ -6,6 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie
+import renovationAnimation from "@/public/lotties/renovation.json";
+import mesureAnimation from "@/public/lotties/mesure.json";
+import accessoiresAnimation from "@/public/lotties/accessoires.json";
+import reviewsAnimation from "@/public/lotties/reviews.json";
 
 interface Realisation {
   _id: string;
@@ -86,10 +93,24 @@ export default function RealisationsPage() {
               transition={{ duration: 0.8 }}
               className="text-center max-w-3xl mx-auto"
             >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center mb-6"
+              >
+                <LottieIcon
+                  animationData={reviewsAnimation}
+                  size={120}
+                  loop={true}
+                  autoplay={true}
+                  colorReplacements={{ "#222359": "#ffffff" }}
+                />
+              </motion.div>
               <motion.span
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
                 className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-6 shadow-md rotate-1 hover:rotate-0 transition-transform duration-300"
               >
                 Portfolio
@@ -121,10 +142,20 @@ export default function RealisationsPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                   >
-                    <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-4">
-                      Nos aménagements{" "}
-                      <span className="text-secondary">complets</span>
-                    </h2>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex-shrink-0">
+                        <LottieIcon
+                          animationData={mesureAnimation}
+                          size={64}
+                          loop={true}
+                          autoplay={true}
+                        />
+                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                        Nos aménagements{" "}
+                        <span className="text-secondary">complets</span>
+                      </h2>
+                    </div>
                     <p className="text-gray-600 mb-12">
                       Fourgons neufs entièrement aménagés par nos soins
                     </p>
@@ -153,10 +184,20 @@ export default function RealisationsPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                   >
-                    <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-4">
-                      Nos rénovations{" "}
-                      <span className="text-secondary">et améliorations</span>
-                    </h2>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex-shrink-0">
+                        <LottieIcon
+                          animationData={renovationAnimation}
+                          size={64}
+                          loop={true}
+                          autoplay={true}
+                        />
+                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                        Nos rénovations{" "}
+                        <span className="text-secondary">et améliorations</span>
+                      </h2>
+                    </div>
                     <p className="text-gray-600 mb-12">
                       Rénovations, réparations et améliorations de fourgons
                       aménagés
@@ -186,9 +227,19 @@ export default function RealisationsPage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                   >
-                    <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-4">
-                      Pose d'<span className="text-secondary">accessoires</span>
-                    </h2>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex-shrink-0">
+                        <LottieIcon
+                          animationData={accessoiresAnimation}
+                          size={64}
+                          loop={true}
+                          autoplay={true}
+                        />
+                      </div>
+                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                        Pose d'<span className="text-secondary">accessoires</span>
+                      </h2>
+                    </div>
                     <p className="text-gray-600 mb-12">
                       Installation d'équipements et d'accessoires sur mesure
                     </p>
@@ -236,13 +287,13 @@ function RealisationCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="group"
+      className="group h-full"
     >
       <Link
         href={`/realisations/${realisation._id}`}
-        className="block bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-secondary/50"
+        className="flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-secondary/50"
       >
-        <div className="relative h-64">
+        <div className="relative h-64 flex-shrink-0">
           <Image
             src={realisation.coverImage}
             alt={realisation.titre}
@@ -255,11 +306,11 @@ function RealisationCard({
             </span>
           </div>
         </div>
-        <div className="p-6">
+        <div className="p-6 flex-1 flex flex-col">
           <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-secondary transition-colors">
             {realisation.titre}
           </h3>
-          <p className="text-gray-600 line-clamp-3 mb-4">
+          <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
             {realisation.description}
           </p>
           <div className="flex items-center gap-2 text-secondary font-semibold">

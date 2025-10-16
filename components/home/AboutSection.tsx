@@ -4,6 +4,16 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { getAnimation } from "@/lib/animations";
+import LordIcon from "@/components/LordIcon";
+import { VanlandIcons } from "@/components/LordIconExamples";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie locales
+import usAnimation from "@/public/lotties/us.json";
+import proximiteAnimation from "@/public/lotties/proximite.json";
+import transparenceAnimation from "@/public/lotties/transparence.json";
+import qualityAnimation from "@/public/lotties/quality.json";
+import accompagnementAnimation from "@/public/lotties/accompagnement.json";
 
 export function AboutSection() {
   const isMobile = useIsMobile();
@@ -26,9 +36,19 @@ export function AboutSection() {
             className="space-y-6 lg:order-2"
           >
             <div>
-              <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300">
-                Qui sommes-nous ?
-              </span>
+              <div className="flex items-center gap-4 mb-4">
+                <div className="flex-shrink-0">
+                  <LottieIcon
+                    animationData={usAnimation}
+                    size={80}
+                    loop={true}
+                    autoplay={true}
+                  />
+                </div>
+                <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300">
+                  Qui sommes-nous ?
+                </span>
+              </div>
               <h2 className="text-4xl lg:text-5xl font-bold text-navy mb-6">
                 Une entreprise artisanale{" "}
                 <span className="text-secondary">à votre service</span>
@@ -51,22 +71,9 @@ export function AboutSection() {
               votre van, fourgon et/ou camping-car.
             </p>
 
-            <div className="bg-gradient-to-r from-navy/5 to-secondary/5 rounded-3xl p-6 border-l-4 border-secondary shadow-md">
+            <div className="bg-gradient-to-r from-navy/5 to-secondary/5 rounded-3xl py-4 px-4 sm:py-5 sm:px-5 border-l-4 border-secondary shadow-md">
               <div className="flex items-start gap-3">
-                <svg
-                  className="w-6 h-6 text-secondary flex-shrink-0 mt-1"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                </svg>
-                <p className="text-gray-700">
+                <p className="text-gray-700 text-left">
                   Nous vous accueillons dans notre atelier qui est situé à{" "}
                   <span className="font-bold text-navy">
                     Chanceaux-sur-Choisille
@@ -77,19 +84,43 @@ export function AboutSection() {
             </div>
 
             {/* Key points */}
-            <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 pt-4">
               {[
-                { icon: "✓", text: "Proximité", rotate: "rotate-1" },
-                { icon: "✓", text: "Transparence", rotate: "-rotate-1" },
-                { icon: "✓", text: "Qualité", rotate: "-rotate-2" },
-                { icon: "✓", text: "Accompagnement", rotate: "rotate-2" },
+                { 
+                  animation: proximiteAnimation, 
+                  text: "Proximité", 
+                  rotate: "rotate-1" 
+                },
+                { 
+                  animation: transparenceAnimation, 
+                  text: "Transparence", 
+                  rotate: "-rotate-1" 
+                },
+                { 
+                  animation: qualityAnimation, 
+                  text: "Qualité", 
+                  rotate: "-rotate-2" 
+                },
+                { 
+                  animation: accompagnementAnimation, 
+                  text: "Accompagnement", 
+                  rotate: "rotate-2" 
+                },
               ].map((item, index) => (
                 <div
                   key={index}
-                  className={`flex items-center gap-2 sm:gap-3 bg-white rounded-2xl p-3 sm:p-4 shadow-md border border-gray-100 hover:border-secondary/50 hover:shadow-lg hover:rotate-0 transition-all duration-300 ${item.rotate}`}
+                  className={`group flex flex-col sm:flex-row items-center gap-2 sm:gap-3 bg-white rounded-2xl p-3 sm:p-4 shadow-md border border-gray-100 hover:border-secondary/50 hover:shadow-lg hover:rotate-0 transition-all duration-300 ${item.rotate}`}
                 >
-                  <span className="text-xl sm:text-2xl text-secondary flex-shrink-0">{item.icon}</span>
-                  <span className="font-semibold text-navy text-sm sm:text-base">{item.text}</span>
+                  <div className="flex-shrink-0">
+                    <LottieIcon
+                      animationData={item.animation}
+                      size={isMobile ? 48 : 64}
+                      loop={true}
+                      autoplay={true}
+                      playOnHover={false}
+                    />
+                  </div>
+                  <span className="font-semibold text-navy text-sm sm:text-base text-center sm:text-left">{item.text}</span>
                 </div>
               ))}
             </div>

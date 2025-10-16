@@ -7,6 +7,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie
+import renovationAnimation from "@/public/lotties/renovation.json";
+import mesureAnimation from "@/public/lotties/mesure.json";
+import accessoiresAnimation from "@/public/lotties/accessoires.json";
 
 interface Realisation {
   _id: string;
@@ -49,6 +55,20 @@ export default function RealisationDetailPage() {
   const [realisation, setRealisation] = useState<Realisation | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
+
+  // Fonction pour obtenir l'animation Lottie selon le type
+  const getLottieAnimation = (type: Realisation["type"]) => {
+    switch (type) {
+      case "renovation":
+        return renovationAnimation;
+      case "amenagement_complet":
+        return mesureAnimation;
+      case "pose_accessoires":
+        return accessoiresAnimation;
+      default:
+        return mesureAnimation;
+    }
+  };
 
   useEffect(() => {
     loadRealisation();
@@ -156,9 +176,19 @@ export default function RealisationDetailPage() {
                   </svg>
                   Retour aux réalisations
                 </Link>
-                <span className="inline-block px-4 py-2 bg-accent text-navy font-bold rounded-2xl mb-4">
-                  {realisation.numero}
-                </span>
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="inline-block px-4 py-2 bg-accent text-navy font-bold rounded-2xl">
+                    {realisation.numero}
+                  </span>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-2">
+                    <LottieIcon
+                      animationData={getLottieAnimation(realisation.type)}
+                      size={40}
+                      loop={true}
+                      autoplay={true}
+                    />
+                  </div>
+                </div>
                 <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
                   {realisation.titre}
                 </h1>
@@ -665,10 +695,10 @@ function SectionBlock({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-white rounded-3xl p-8 shadow-lg border border-gray-100"
+      className="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow"
     >
       <h3 className="text-xl font-bold text-navy mb-4 flex items-center gap-3">
-        <span className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center text-2xl">
+        <span className="w-12 h-12 bg-gradient-to-br from-secondary/20 to-accent/20 rounded-xl flex items-center justify-center text-2xl">
           {icon}
         </span>
         {title}

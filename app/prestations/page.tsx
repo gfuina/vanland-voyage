@@ -5,6 +5,13 @@ import { Footer } from "@/components/layout/Footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie
+import mesureAnimation from "@/public/lotties/mesure.json";
+import accessoiresAnimation from "@/public/lotties/accessoires.json";
+import renovationAnimation from "@/public/lotties/renovation.json";
+import buildVanAnimation from "@/public/lotties/build-van.json";
 
 export default function PrestationsPage() {
   return (
@@ -24,6 +31,20 @@ export default function PrestationsPage() {
               transition={{ duration: 0.8 }}
               className="text-center max-w-4xl mx-auto"
             >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="flex justify-center mb-6"
+              >
+                <LottieIcon
+                  animationData={buildVanAnimation}
+                  size={120}
+                  loop={true}
+                  autoplay={true}
+                  colorReplacements={{ "#222359": "#ffffff" }}
+                />
+              </motion.div>
               <motion.span
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -103,16 +124,26 @@ export default function PrestationsPage() {
                   >
                     Projet sur-mesure
                   </motion.span>
-                  <motion.h2
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-3xl lg:text-4xl font-bold text-navy mb-4"
+                    className="flex items-center gap-4 mb-4"
                   >
-                    Un projet complet{" "}
-                    <span className="text-secondary">sur-mesure ?</span>
-                  </motion.h2>
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={mesureAnimation}
+                        size={56}
+                        loop={true}
+                        autoplay={true}
+                      />
+                    </div>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                      Un projet complet{" "}
+                      <span className="text-secondary whitespace-nowrap">sur-mesure ?</span>
+                    </h2>
+                  </motion.div>
                 </div>
 
                 <motion.p
@@ -229,16 +260,26 @@ export default function PrestationsPage() {
                   >
                     Accompagnement personnalisé
                   </motion.span>
-                  <motion.h2
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-3xl lg:text-4xl font-bold text-navy mb-4"
+                    className="flex items-center gap-4 mb-4"
                   >
-                    Un aménagement partiel ou{" "}
-                    <span className="text-secondary">une pose d'accessoires ?</span>
-                  </motion.h2>
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={accessoiresAnimation}
+                        size={56}
+                        loop={true}
+                        autoplay={true}
+                      />
+                    </div>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                      Un aménagement partiel ou{" "}
+                      <span className="text-secondary whitespace-nowrap">une pose d'accessoires ?</span>
+                    </h2>
+                  </motion.div>
                 </div>
 
                 <motion.p
@@ -343,16 +384,26 @@ export default function PrestationsPage() {
                   >
                     Maintenance & amélioration
                   </motion.span>
-                  <motion.h2
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-3xl lg:text-4xl font-bold text-navy mb-4"
+                    className="flex items-center gap-4 mb-4"
                   >
-                    Une réparation ou une amélioration{" "}
-                    <span className="text-secondary">de votre véhicule ?</span>
-                  </motion.h2>
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={renovationAnimation}
+                        size={56}
+                        loop={true}
+                        autoplay={true}
+                      />
+                    </div>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-navy">
+                      Une réparation ou une amélioration{" "}
+                      <span className="text-secondary whitespace-nowrap">de votre véhicule ?</span>
+                    </h2>
+                  </motion.div>
                 </div>
 
                 <motion.p

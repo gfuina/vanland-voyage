@@ -10,12 +10,16 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { getAnimation, getStaggerAnimation } from "@/lib/animations";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import de l'animation Lottie
+import mesureAnimation from "@/public/lotties/mesure.json";
 
 interface Realisation {
   _id: string;
   numero: string;
   titre: string;
-  type: "amenagement_complet" | "renovation";
+  type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
   coverImage: string;
 }
@@ -67,6 +71,14 @@ export function RealisationsSection() {
           {...animation}
           className="text-center mb-12 lg:mb-16"
         >
+          <div className="flex justify-center mb-6">
+            <LottieIcon
+              animationData={mesureAnimation}
+              size={100}
+              loop={true}
+              autoplay={true}
+            />
+          </div>
           <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300">
             Nos dernières réalisations
           </span>
@@ -100,11 +112,11 @@ export function RealisationsSection() {
               <SwiperSlide key={realisation._id}>
                 <Link
                   href={`/realisations/${realisation._id}`}
-                  className={`group block bg-white rounded-3xl overflow-hidden shadow-lg active:shadow-2xl transition-all duration-300 border-2 border-gray-100 ${
+                  className={`group flex flex-col h-full bg-white rounded-3xl overflow-hidden shadow-lg active:shadow-2xl transition-all duration-300 border-2 border-gray-100 ${
                     index % 2 === 0 ? "rotate-1" : "-rotate-1"
                   }`}
                 >
-                  <div className="relative h-64">
+                  <div className="relative h-64 flex-shrink-0">
                     <Image
                       src={realisation.coverImage}
                       alt={realisation.titre}
@@ -116,19 +128,12 @@ export function RealisationsSection() {
                         {realisation.numero}
                       </span>
                     </div>
-                    {realisation.type === "renovation" && (
-                      <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1.5 bg-secondary/90 backdrop-blur-sm text-white text-xs font-bold rounded-xl">
-                          Rénovation
-                        </span>
-                      </div>
-                    )}
                   </div>
-                  <div className="p-6">
+                  <div className="p-6 flex-1 flex flex-col">
                     <h3 className="text-xl font-bold text-navy mb-3">
                       {realisation.titre}
                     </h3>
-                    <p className="text-gray-600 line-clamp-3 mb-4">
+                    <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
                       {realisation.description}
                     </p>
                     <div className="flex items-center gap-2 text-secondary font-semibold">
@@ -160,12 +165,13 @@ export function RealisationsSection() {
             <motion.div
               key={realisation._id}
               {...getStaggerAnimation(isMobile, index)}
+              className="flex"
             >
               <Link
                 href={`/realisations/${realisation._id}`}
-                className="group block bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-secondary/50"
+                className="group flex flex-col w-full bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-secondary/50"
               >
-                <div className="relative h-64">
+                <div className="relative h-64 flex-shrink-0">
                   <Image
                     src={realisation.coverImage}
                     alt={realisation.titre}
@@ -177,19 +183,12 @@ export function RealisationsSection() {
                       {realisation.numero}
                     </span>
                   </div>
-                  {realisation.type === "renovation" && (
-                    <div className="absolute top-4 right-4">
-                      <span className="px-3 py-1.5 bg-secondary/90 backdrop-blur-sm text-white text-xs font-bold rounded-xl">
-                        Rénovation
-                      </span>
-                    </div>
-                  )}
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex-1 flex flex-col">
                   <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-secondary transition-colors">
                     {realisation.titre}
                   </h3>
-                  <p className="text-gray-600 line-clamp-3 mb-4">
+                  <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
                     {realisation.description}
                   </p>
                   <div className="flex items-center gap-2 text-secondary font-semibold">

@@ -8,6 +8,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { getAnimation, getStaggerAnimation } from "@/lib/animations";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import de l'animation Lottie
+import reviewsAnimation from "@/public/lotties/reviews.json";
 
 export function TestimonialsSection() {
   const isMobile = useIsMobile();
@@ -61,6 +65,14 @@ export function TestimonialsSection() {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div {...animation} className="text-center mb-16">
+          <div className="flex justify-center mb-2">
+            <LottieIcon
+              animationData={reviewsAnimation}
+              size={120}
+              loop={true}
+              autoplay={true}
+            />
+          </div>
           <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300">
             Témoignages
           </span>

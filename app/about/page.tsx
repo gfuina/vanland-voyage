@@ -4,6 +4,13 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie
+import usAnimation from "@/public/lotties/us.json";
+import customAnimation from "@/public/lotties/custom.json";
+import qualityAnimation from "@/public/lotties/quality-2.json";
+import ecoAnimation from "@/public/lotties/eco.json";
 
 export default function AboutPage() {
   return (
@@ -23,10 +30,24 @@ export default function AboutPage() {
               transition={{ duration: 0.8 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <motion.span
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                className="flex justify-center mb-6"
+              >
+                <LottieIcon
+                  animationData={usAnimation}
+                  size={120}
+                  loop={true}
+                  autoplay={true}
+                  colorReplacements={{ "#222359": "#ffffff" }}
+                />
+              </motion.div>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
                 className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-6 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300"
               >
                 Qui sommes-nous ?
@@ -34,7 +55,7 @@ export default function AboutPage() {
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
               >
                 Entreprise aménageur de fourgon à{" "}
@@ -190,19 +211,19 @@ export default function AboutPage() {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  icon: "🎯",
+                  lottie: customAnimation,
                   title: "Personnalisé",
                   description: "Chaque aménagement est unique et pensé selon vos besoins",
                   rotate: "-rotate-1",
                 },
                 {
-                  icon: "✨",
+                  lottie: qualityAnimation,
                   title: "Qualité",
                   description: "Des matériaux et équipements de première qualité",
                   rotate: "rotate-1",
                 },
                 {
-                  icon: "🌱",
+                  lottie: ecoAnimation,
                   title: "Éco-responsable",
                   description: "Des solutions respectueuses de l'environnement",
                   rotate: "-rotate-2",
@@ -216,11 +237,18 @@ export default function AboutPage() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className={`bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${value.rotate}`}
                 >
-                  <div className="text-5xl mb-4">{value.icon}</div>
-                  <h3 className="text-xl font-bold text-navy mb-3">
+                  <div className="flex justify-center mb-6">
+                    <LottieIcon
+                      animationData={value.lottie}
+                      size={80}
+                      loop={true}
+                      autoplay={true}
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-navy mb-3 text-center">
                     {value.title}
                   </h3>
-                  <p className="text-gray-600">{value.description}</p>
+                  <p className="text-gray-600 text-center">{value.description}</p>
                 </motion.div>
               ))}
             </div>

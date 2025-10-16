@@ -9,6 +9,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { getAnimation, getStaggerAnimation } from "@/lib/animations";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import de l'animation Lottie
+import partnerAnimation from "@/public/lotties/partner.json";
 
 interface Partner {
   _id: string;
@@ -77,6 +81,17 @@ export function PartnersSection() {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div {...animation} className="text-center mb-16">
+          <div className="flex justify-center mb-6">
+            <LottieIcon
+              animationData={partnerAnimation}
+              size={100}
+              loop={true}
+              autoplay={true}
+              colorReplacements={{
+                "#222359": "#ffffff",
+              }}
+            />
+          </div>
           <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md rotate-1 hover:rotate-0 transition-transform duration-300">
             Nos Partenaires
           </span>

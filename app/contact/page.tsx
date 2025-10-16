@@ -4,6 +4,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import LottieIcon from "@/components/LottieIcon";
+
+// Import des animations Lottie
+import contactAnimation from "@/public/lotties/contact.json";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -82,6 +86,14 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
+            <div className="flex justify-center mb-6">
+              <LottieIcon
+                animationData={contactAnimation}
+                size={120}
+                loop={true}
+                autoplay={true}
+              />
+            </div>
             <span className="inline-block px-5 py-2.5 bg-accent text-navy font-bold text-sm rounded-2xl mb-4 shadow-md -rotate-1 hover:rotate-0 transition-transform duration-300">
               Contactez-nous
             </span>
@@ -213,14 +225,16 @@ export default function ContactPage() {
                 <h3 className="text-xl font-bold text-navy mb-4">
                   Horaires d'ouverture
                 </h3>
-                <div className="space-y-2 text-gray-700">
+                <div className="space-y-3 text-gray-700">
                   <p>
                     <span className="font-semibold">Lundi - Vendredi :</span>{" "}
                     9h - 18h
                   </p>
-                  <p>
-                    <span className="font-semibold">Weekend :</span> Sur
-                    rendez-vous
+                  <p className="text-accent font-bold">
+                    UNIQUEMENT SUR RENDEZ-VOUS
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Week-end : Fermé
                   </p>
                 </div>
               </div>
