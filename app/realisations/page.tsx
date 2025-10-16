@@ -12,7 +12,7 @@ import LottieIcon from "@/components/LottieIcon";
 import renovationAnimation from "@/public/lotties/renovation.json";
 import mesureAnimation from "@/public/lotties/mesure.json";
 import accessoiresAnimation from "@/public/lotties/accessoires.json";
-import reviewsAnimation from "@/public/lotties/reviews.json";
+import buildAnimation from "@/public/lotties/build.json";
 
 interface Realisation {
   _id: string;
@@ -50,11 +50,14 @@ interface Realisation {
   };
 }
 
+type Category = "amenagement_complet" | "renovation" | "pose_accessoires";
+
 export default function RealisationsPage() {
   const [amenagements, setAmenagements] = useState<Realisation[]>([]);
   const [renovations, setRenovations] = useState<Realisation[]>([]);
   const [accessoires, setAccessoires] = useState<Realisation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<Category>("amenagement_complet");
 
   useEffect(() => {
     loadRealisations();
@@ -100,7 +103,7 @@ export default function RealisationsPage() {
                 className="flex justify-center mb-6"
               >
                 <LottieIcon
-                  animationData={reviewsAnimation}
+                  animationData={buildAnimation}
                   size={120}
                   loop={true}
                   autoplay={true}
@@ -131,141 +134,216 @@ export default function RealisationsPage() {
             <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-secondary border-r-transparent" />
           </div>
         ) : (
-          <>
-            {/* Aménagements complets */}
-            {amenagements.length > 0 && (
-              <section className="py-20 bg-white">
-                <div className="container mx-auto px-4 lg:px-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4 lg:px-8">
+              {/* Onglets de catégories */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-12"
+              >
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch w-full max-w-5xl mx-auto">
+                  {/* Aménagements complets */}
+                  <button
+                    onClick={() => setActiveCategory("amenagement_complet")}
+                    className={`flex-1 flex items-center gap-3 px-6 py-4 rounded-2xl transition-all duration-300 ${
+                      activeCategory === "amenagement_complet"
+                        ? "bg-navy text-white shadow-xl scale-105"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex-shrink-0">
-                        <LottieIcon
-                          animationData={mesureAnimation}
-                          size={64}
-                          loop={true}
-                          autoplay={true}
-                        />
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={mesureAnimation}
+                        size={40}
+                        loop={true}
+                        autoplay={activeCategory === "amenagement_complet"}
+                        colorReplacements={
+                          activeCategory === "amenagement_complet"
+                            ? { "#222359": "#ffffff" }
+                            : undefined
+                        }
+                      />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold">Aménagements complets</div>
+                      <div className="text-sm opacity-80">
+                        {amenagements.length} {amenagements.length > 1 ? "réalisations" : "réalisation"}
                       </div>
-                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
-                        Nos aménagements{" "}
-                        <span className="text-secondary">complets</span>
-                      </h2>
                     </div>
-                    <p className="text-gray-600 mb-12">
-                      Fourgons neufs entièrement aménagés par nos soins
-                    </p>
+                  </button>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {amenagements.map((realisation, index) => (
-                        <RealisationCard
-                          key={realisation._id}
-                          realisation={realisation}
-                          index={index}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
-              </section>
-            )}
-
-            {/* Rénovations */}
-            {renovations.length > 0 && (
-              <section className="py-20 bg-gray-50">
-                <div className="container mx-auto px-4 lg:px-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                  {/* Rénovations */}
+                  <button
+                    onClick={() => setActiveCategory("renovation")}
+                    className={`flex-1 flex items-center gap-3 px-6 py-4 rounded-2xl transition-all duration-300 ${
+                      activeCategory === "renovation"
+                        ? "bg-navy text-white shadow-xl scale-105"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex-shrink-0">
-                        <LottieIcon
-                          animationData={renovationAnimation}
-                          size={64}
-                          loop={true}
-                          autoplay={true}
-                        />
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={renovationAnimation}
+                        size={40}
+                        loop={true}
+                        autoplay={activeCategory === "renovation"}
+                        colorReplacements={
+                          activeCategory === "renovation"
+                            ? { "#222359": "#ffffff" }
+                            : undefined
+                        }
+                      />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold">Rénovations</div>
+                      <div className="text-sm opacity-80">
+                        {renovations.length} {renovations.length > 1 ? "réalisations" : "réalisation"}
                       </div>
-                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
-                        Nos rénovations{" "}
-                        <span className="text-secondary">et améliorations</span>
-                      </h2>
                     </div>
-                    <p className="text-gray-600 mb-12">
-                      Rénovations, réparations et améliorations de fourgons
-                      aménagés
-                    </p>
+                  </button>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {renovations.map((realisation, index) => (
-                        <RealisationCard
-                          key={realisation._id}
-                          realisation={realisation}
-                          index={index}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
-              </section>
-            )}
-
-            {/* Pose d'accessoires */}
-            {accessoires.length > 0 && (
-              <section className="py-20 bg-white">
-                <div className="container mx-auto px-4 lg:px-8">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                  {/* Accessoires */}
+                  <button
+                    onClick={() => setActiveCategory("pose_accessoires")}
+                    className={`flex-1 flex items-center gap-3 px-6 py-4 rounded-2xl transition-all duration-300 ${
+                      activeCategory === "pose_accessoires"
+                        ? "bg-navy text-white shadow-xl scale-105"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex-shrink-0">
-                        <LottieIcon
-                          animationData={accessoiresAnimation}
-                          size={64}
-                          loop={true}
-                          autoplay={true}
-                        />
+                    <div className="flex-shrink-0">
+                      <LottieIcon
+                        animationData={accessoiresAnimation}
+                        size={40}
+                        loop={true}
+                        autoplay={activeCategory === "pose_accessoires"}
+                        colorReplacements={
+                          activeCategory === "pose_accessoires"
+                            ? { "#222359": "#ffffff" }
+                            : undefined
+                        }
+                      />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-bold">Pose d'accessoires</div>
+                      <div className="text-sm opacity-80">
+                        {accessoires.length} {accessoires.length > 1 ? "réalisations" : "réalisation"}
                       </div>
-                      <h2 className="text-3xl lg:text-4xl font-bold text-navy">
-                        Pose d'<span className="text-secondary">accessoires</span>
-                      </h2>
                     </div>
-                    <p className="text-gray-600 mb-12">
-                      Installation d'équipements et d'accessoires sur mesure
-                    </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                      {accessoires.map((realisation, index) => (
-                        <RealisationCard
-                          key={realisation._id}
-                          realisation={realisation}
-                          index={index}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
+                  </button>
                 </div>
-              </section>
-            )}
+              </motion.div>
 
-            {amenagements.length === 0 && renovations.length === 0 && accessoires.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-gray-500">
-                  Aucune réalisation disponible pour le moment
-                </p>
-              </div>
-            )}
-          </>
+              {/* Contenu selon la catégorie active */}
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/* Aménagements complets */}
+                {activeCategory === "amenagement_complet" && (
+                  <>
+                    {amenagements.length > 0 ? (
+                      <>
+                        <div className="mb-8 text-center">
+                          <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-2">
+                            Nos aménagements <span className="text-secondary">complets</span>
+                          </h2>
+                          <p className="text-gray-600">
+                            Fourgons neufs entièrement aménagés par nos soins
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {amenagements.map((realisation, index) => (
+                            <RealisationCard
+                              key={realisation._id}
+                              realisation={realisation}
+                              index={index}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-20">
+                        <p className="text-gray-500">
+                          Aucun aménagement complet disponible pour le moment
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Rénovations */}
+                {activeCategory === "renovation" && (
+                  <>
+                    {renovations.length > 0 ? (
+                      <>
+                        <div className="mb-8 text-center">
+                          <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-2">
+                            Nos rénovations <span className="text-secondary">et améliorations</span>
+                          </h2>
+                          <p className="text-gray-600">
+                            Rénovations, réparations et améliorations de fourgons aménagés
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {renovations.map((realisation, index) => (
+                            <RealisationCard
+                              key={realisation._id}
+                              realisation={realisation}
+                              index={index}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-20">
+                        <p className="text-gray-500">
+                          Aucune rénovation disponible pour le moment
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+
+                {/* Accessoires */}
+                {activeCategory === "pose_accessoires" && (
+                  <>
+                    {accessoires.length > 0 ? (
+                      <>
+                        <div className="mb-8 text-center">
+                          <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-2">
+                            Pose d'<span className="text-secondary">accessoires</span>
+                          </h2>
+                          <p className="text-gray-600">
+                            Installation d'équipements et d'accessoires sur mesure
+                          </p>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                          {accessoires.map((realisation, index) => (
+                            <RealisationCard
+                              key={realisation._id}
+                              realisation={realisation}
+                              index={index}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center py-20">
+                        <p className="text-gray-500">
+                          Aucune pose d'accessoire disponible pour le moment
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+              </motion.div>
+            </div>
+          </section>
         )}
       </main>
       <Footer />
