@@ -12,7 +12,7 @@ interface Realisation {
   _id: string;
   numero: string;
   titre: string;
-  type: "amenagement_complet" | "renovation";
+  type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
   coverImage: string;
   vehicule?: {
@@ -37,6 +37,10 @@ interface Realisation {
     lit?: string[];
     technique?: string[];
     exterieur?: string[];
+  };
+  photosRenovation?: {
+    avant?: string[];
+    apres?: string[];
   };
 }
 
@@ -107,6 +111,8 @@ export default function RealisationDetailPage() {
     ...(realisation.photos?.lit || []),
     ...(realisation.photos?.technique || []),
     ...(realisation.photos?.exterieur || []),
+    ...(realisation.photosRenovation?.avant || []),
+    ...(realisation.photosRenovation?.apres || []),
   ];
 
   return (
@@ -159,6 +165,11 @@ export default function RealisationDetailPage() {
                 {realisation.type === "renovation" && (
                   <span className="inline-block px-4 py-2 bg-secondary text-white font-semibold rounded-2xl">
                     Rénovation
+                  </span>
+                )}
+                {realisation.type === "pose_accessoires" && (
+                  <span className="inline-block px-4 py-2 bg-accent text-navy font-semibold rounded-2xl">
+                    Pose d'accessoires
                   </span>
                 )}
               </motion.div>
@@ -254,8 +265,136 @@ export default function RealisationDetailPage() {
                 )}
               </div>
 
-              {/* Galerie photos */}
-              {allPhotos.length > 1 && (
+              {/* Galerie photos - Pour rénovations avec avant/après */}
+              {realisation.type === "renovation" &&
+                (realisation.photosRenovation?.avant?.length ||
+                  realisation.photosRenovation?.apres?.length) && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="space-y-8"
+                  >
+                    <h2 className="text-2xl font-bold text-navy">
+                      Photos Avant / Après
+                    </h2>
+
+                    {/* Photos AVANT */}
+                    {realisation.photosRenovation?.avant &&
+                      realisation.photosRenovation.avant.length > 0 && (
+                        <div>
+                          <h3 className="text-xl font-semibold text-navy mb-4 flex items-center gap-2">
+                            <span className="px-3 py-1 bg-gray-500 text-white rounded-lg text-sm">
+                              AVANT
+                            </span>
+                            Avant rénovation
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {realisation.photosRenovation.avant.map(
+                              (photo, i) => {
+                                const photoIndex = allPhotos.indexOf(photo);
+                                return (
+                                  <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                                    className="relative aspect-video rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow group cursor-pointer"
+                                    onClick={() =>
+                                      setSelectedPhotoIndex(photoIndex)
+                                    }
+                                  >
+                                    <Image
+                                      src={photo}
+                                      alt={`Avant ${i + 1}`}
+                                      fill
+                                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                    />
+                                    <div className="absolute top-3 left-3 px-3 py-1 bg-gray-500/90 text-white text-xs font-semibold rounded-lg">
+                                      AVANT
+                                    </div>
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                      <svg
+                                        className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          strokeWidth={2}
+                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                                        />
+                                      </svg>
+                                    </div>
+                                  </motion.div>
+                                );
+                              }
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                    {/* Photos APRÈS */}
+                    {realisation.photosRenovation?.apres &&
+                      realisation.photosRenovation.apres.length > 0 && (
+                        <div>
+                          <h3 className="text-xl font-semibold text-navy mb-4 flex items-center gap-2">
+                            <span className="px-3 py-1 bg-green-500 text-white rounded-lg text-sm">
+                              APRÈS
+                            </span>
+                            Après rénovation
+                          </h3>
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {realisation.photosRenovation.apres.map((photo, i) => {
+                              const photoIndex = allPhotos.indexOf(photo);
+                              return (
+                                <motion.div
+                                  key={i}
+                                  initial={{ opacity: 0, scale: 0.9 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                                  className="relative aspect-video rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow group cursor-pointer"
+                                  onClick={() =>
+                                    setSelectedPhotoIndex(photoIndex)
+                                  }
+                                >
+                                  <Image
+                                    src={photo}
+                                    alt={`Après ${i + 1}`}
+                                    fill
+                                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                                  />
+                                  <div className="absolute top-3 left-3 px-3 py-1 bg-green-500/90 text-white text-xs font-semibold rounded-lg">
+                                    APRÈS
+                                  </div>
+                                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                    <svg
+                                      className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      viewBox="0 0 24 24"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                                      />
+                                    </svg>
+                                  </div>
+                                </motion.div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                  </motion.div>
+                )}
+
+              {/* Galerie photos standard - Pour aménagements et accessoires */}
+              {realisation.type !== "renovation" && allPhotos.length > 1 && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

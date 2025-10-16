@@ -209,13 +209,6 @@ export function Footer() {
             {/* Quick Links */}
             <div className="flex flex-wrap justify-center gap-4 text-sm">
               <Link
-                href="/blog"
-                className="text-white/80 hover:text-accent transition-colors"
-              >
-                Blog
-              </Link>
-              <span className="text-white/30">|</span>
-              <Link
                 href="/autocollants-vasp"
                 className="text-white/80 hover:text-accent transition-colors"
               >

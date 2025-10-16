@@ -12,6 +12,8 @@ export default function AdministrationPage() {
     realisations: 0,
     contacts: 0,
     nouveauxContacts: 0,
+    actualites: 0,
+    actualiteActive: false,
   });
 
   useEffect(() => {
@@ -28,10 +30,16 @@ export default function AdministrationPage() {
       const contactsRes = await fetch("/api/contact");
       const contactsData = await contactsRes.json();
       
+      // Récupérer les actualités
+      const actualitesRes = await fetch("/api/actualites");
+      const actualitesData = await actualitesRes.json();
+      
       setStats({
         realisations: realisationsData.realisations?.filter((r: { published: boolean }) => r.published).length || 0,
         contacts: contactsData.contacts?.length || 0,
         nouveauxContacts: contactsData.contacts?.filter((c: { status: string }) => c.status === "nouveau").length || 0,
+        actualites: actualitesData.actualites?.length || 0,
+        actualiteActive: actualitesData.actualites?.some((a: { active: boolean }) => a.active) || false,
       });
     } catch (error) {
       console.error("Erreur lors du chargement des stats:", error);
@@ -277,17 +285,58 @@ export default function AdministrationPage() {
               </a>
             </motion.div>
 
+            {/* Actualités Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/50 hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mb-6 -rotate-2">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-2">
+                Actualités
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Gérer les actualités et modals du site
+                {stats.actualiteActive && (
+                  <span className="block mt-2 text-secondary font-bold">
+                    ✓ Une actualité est active
+                  </span>
+                )}
+              </p>
+              <a
+                href="/administration/actualites"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
+              >
+                Gérer les actualités
+              </a>
+            </motion.div>
+
           </div>
 
           {/* Quick Stats */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-12 bg-gradient-to-br from-navy to-primary rounded-3xl p-8 text-white"
           >
             <h3 className="text-2xl font-bold mb-6">Aperçu rapide</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                 <div className="text-4xl font-bold text-accent mb-2">{stats.realisations}</div>
                 <div className="text-white/80">Réalisations publiées</div>
@@ -299,6 +348,10 @@ export default function AdministrationPage() {
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
                 <div className="text-4xl font-bold text-accent mb-2">{stats.nouveauxContacts}</div>
                 <div className="text-white/80">Nouvelles demandes</div>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6">
+                <div className="text-4xl font-bold text-accent mb-2">{stats.actualites}</div>
+                <div className="text-white/80">Actualités</div>
               </div>
             </div>
           </motion.div>

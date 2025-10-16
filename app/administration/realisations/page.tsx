@@ -9,7 +9,7 @@ interface Realisation {
   _id?: string;
   numero: string;
   titre: string;
-  type: "amenagement_complet" | "renovation";
+  type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
   coverImage: string;
   photos: {
@@ -20,6 +20,10 @@ interface Realisation {
     lit?: string[];
     technique?: string[];
     exterieur?: string[];
+  };
+  photosRenovation?: {
+    avant?: string[];
+    apres?: string[];
   };
   vehicule?: {
     marque?: string;
@@ -173,7 +177,9 @@ export default function AdminRealisationsPage() {
                   <p className="text-sm text-gray-600 mb-1">
                     {realisation.type === "amenagement_complet"
                       ? "Aménagement complet"
-                      : "Rénovation"}
+                      : realisation.type === "renovation"
+                      ? "Rénovation"
+                      : "Pose d'accessoires"}
                   </p>
                   <p className="text-sm text-gray-500 line-clamp-2 mb-4">
                     {realisation.description}
@@ -395,6 +401,9 @@ function BuilderModal({
           {step === 3 && formData.type === "renovation" && (
             <Step3Renovation formData={formData} setFormData={setFormData} />
           )}
+          {step === 3 && formData.type === "pose_accessoires" && (
+            <Step3Accessoires formData={formData} setFormData={setFormData} />
+          )}
           {step === 4 && (
             <Step4Photos
               formData={formData}
@@ -460,7 +469,7 @@ function Step1({
         <label className="block text-sm font-semibold text-navy mb-2">
           Type de réalisation *
         </label>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <button
             type="button"
             onClick={() =>
@@ -486,6 +495,18 @@ function Step1({
           >
             <div className="font-bold text-navy">Rénovation</div>
             <div className="text-sm text-gray-600">Amélioration / Réparation</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setFormData({ ...formData, type: "pose_accessoires" })}
+            className={`p-4 rounded-2xl border-2 transition-all ${
+              formData.type === "pose_accessoires"
+                ? "border-secondary bg-secondary/10"
+                : "border-gray-200 hover:border-secondary/50"
+            }`}
+          >
+            <div className="font-bold text-navy">Pose d'accessoires</div>
+            <div className="text-sm text-gray-600">Ajout d'équipements</div>
           </button>
         </div>
       </div>
@@ -929,7 +950,38 @@ function Step3Renovation({
   );
 }
 
-// Step 4: Photos (aménagements uniquement)
+// Step 3 pour pose d'accessoires
+function Step3Accessoires({
+  formData,
+  setFormData,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+}) {
+  return (
+    <div className="space-y-6">
+      <h3 className="text-xl font-bold text-navy">Détails de la pose</h3>
+      <p className="text-sm text-gray-600">
+        Décrivez les accessoires installés, les modifications effectuées, etc.
+      </p>
+
+      <div>
+        <label className="block text-sm font-semibold text-navy mb-2">
+          Technique
+        </label>
+        <textarea
+          placeholder="Détails des accessoires posés et des travaux effectués..."
+          value={formData.technique || ""}
+          onChange={(e) => setFormData({ ...formData, technique: e.target.value })}
+          rows={8}
+          className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-secondary resize-none text-navy bg-white"
+        />
+      </div>
+    </div>
+  );
+}
+
+// Step 4: Photos
 function Step4Photos({
   formData,
   setFormData,
@@ -941,6 +993,12 @@ function Step4Photos({
   onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
   uploading: boolean;
 }) {
+  // Pour les rénovations, on gère les photos avant/après
+  if (formData.type === "renovation") {
+    return <Step4PhotosRenovation formData={formData} setFormData={setFormData} onUpload={onUpload} uploading={uploading} />;
+  }
+
+  // Pour les aménagements et accessoires
   const categories = [
     { key: "general", label: "Générales" },
     { key: "cuisine", label: "Cuisine" },
@@ -1030,6 +1088,199 @@ function Step4Photos({
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+// Step 4: Photos pour rénovations (avant/après)
+function Step4PhotosRenovation({
+  formData,
+  setFormData,
+  onUpload,
+  uploading,
+}: {
+  formData: Partial<Realisation>;
+  setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
+  onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
+  uploading: boolean;
+}) {
+  const handleUploadRenovation = async (file: File, type: "avant" | "apres") => {
+    const fd = new FormData();
+    fd.append("file", file);
+
+    try {
+      const res = await fetch("/api/realisations/upload", {
+        method: "POST",
+        body: fd,
+      });
+
+      const data = await res.json();
+
+      setFormData((prev) => ({
+        ...prev,
+        photosRenovation: {
+          ...prev.photosRenovation,
+          [type]: [...(prev.photosRenovation?.[type] || []), data.url],
+        },
+      }));
+    } catch (error) {
+      console.error("Erreur upload:", error);
+      alert("Erreur lors de l'upload");
+    }
+  };
+
+  const removePhotoRenovation = (type: "avant" | "apres", index: number) => {
+    setFormData({
+      ...formData,
+      photosRenovation: {
+        ...formData.photosRenovation,
+        [type]: formData.photosRenovation?.[type]?.filter(
+          (_: string, i: number) => i !== index
+        ),
+      },
+    });
+  };
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h3 className="text-xl font-bold text-navy mb-2">Photos Avant / Après</h3>
+        <p className="text-sm text-gray-600">
+          Ajoutez des photos avant et après la rénovation pour montrer la transformation
+        </p>
+      </div>
+
+      {/* Photos AVANT */}
+      <div>
+        <label className="text-sm font-semibold text-navy mb-3 flex items-center gap-2">
+          <span className="px-3 py-1 bg-gray-500 text-white rounded-lg text-xs">AVANT</span>
+          Photos avant rénovation
+        </label>
+        <div className="grid grid-cols-3 gap-4">
+          {formData.photosRenovation?.avant?.map((url: string, i: number) => (
+            <div key={i} className="relative aspect-video rounded-xl overflow-hidden">
+              <Image src={url} alt="" fill className="object-cover" />
+              <div className="absolute top-2 left-2 px-2 py-1 bg-gray-500 text-white text-xs rounded">
+                AVANT
+              </div>
+              <button
+                onClick={() => removePhotoRenovation("avant", i)}
+                className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+          <label className="aspect-video border-2 border-dashed border-gray-300 rounded-xl hover:border-secondary transition-colors cursor-pointer flex items-center justify-center">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  handleUploadRenovation(e.target.files[0], "avant");
+                  e.target.value = "";
+                }
+              }}
+              className="hidden"
+            />
+            {uploading ? (
+              <div className="h-6 w-6 animate-spin rounded-full border-4 border-secondary border-r-transparent" />
+            ) : (
+              <svg
+                className="w-8 h-8 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            )}
+          </label>
+        </div>
+      </div>
+
+      {/* Photos APRÈS */}
+      <div>
+        <label className="text-sm font-semibold text-navy mb-3 flex items-center gap-2">
+          <span className="px-3 py-1 bg-green-500 text-white rounded-lg text-xs">APRÈS</span>
+          Photos après rénovation
+        </label>
+        <div className="grid grid-cols-3 gap-4">
+          {formData.photosRenovation?.apres?.map((url: string, i: number) => (
+            <div key={i} className="relative aspect-video rounded-xl overflow-hidden">
+              <Image src={url} alt="" fill className="object-cover" />
+              <div className="absolute top-2 left-2 px-2 py-1 bg-green-500 text-white text-xs rounded">
+                APRÈS
+              </div>
+              <button
+                onClick={() => removePhotoRenovation("apres", i)}
+                className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          ))}
+          <label className="aspect-video border-2 border-dashed border-gray-300 rounded-xl hover:border-secondary transition-colors cursor-pointer flex items-center justify-center">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files?.[0]) {
+                  handleUploadRenovation(e.target.files[0], "apres");
+                  e.target.value = "";
+                }
+              }}
+              className="hidden"
+            />
+            {uploading ? (
+              <div className="h-6 w-6 animate-spin rounded-full border-4 border-secondary border-r-transparent" />
+            ) : (
+              <svg
+                className="w-8 h-8 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+            )}
+          </label>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1126,7 +1377,9 @@ function Step5Final({
             • Type :{" "}
             {formData.type === "amenagement_complet"
               ? "Aménagement complet"
-              : "Rénovation"}
+              : formData.type === "renovation"
+              ? "Rénovation"
+              : "Pose d'accessoires"}
           </li>
           <li>• Numéro : {formData.numero}</li>
           <li>

@@ -10,14 +10,20 @@ export interface IRealisationPhotos {
   exterieur?: string[];
 }
 
+export interface IRealisationPhotosRenovation {
+  avant?: string[];
+  apres?: string[];
+}
+
 export interface IRealisation {
   // Infos principales
   numero: string; // Ex: "#5"
   titre: string; // Ex: "FIAT DUCATO H2L3 - 2025"
-  type: "amenagement_complet" | "renovation"; 
+  type: "amenagement_complet" | "renovation" | "pose_accessoires"; 
   description: string; // Description générale/intro
   coverImage: string; // Image de couverture
   photos: IRealisationPhotos; // Photos catégorisées
+  photosRenovation?: IRealisationPhotosRenovation; // Photos avant/après pour rénovations
   
   // Détails véhicule
   vehicule?: {
@@ -60,7 +66,7 @@ const RealisationSchema = new Schema<IRealisation>(
     },
     type: {
       type: String,
-      enum: ["amenagement_complet", "renovation"],
+      enum: ["amenagement_complet", "renovation", "pose_accessoires"],
       required: [true, "Le type est requis"],
     },
     description: {
@@ -79,6 +85,10 @@ const RealisationSchema = new Schema<IRealisation>(
       lit: [String],
       technique: [String],
       exterieur: [String],
+    },
+    photosRenovation: {
+      avant: [String],
+      apres: [String],
     },
     vehicule: {
       marque: String,

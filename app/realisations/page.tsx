@@ -11,7 +11,7 @@ interface Realisation {
   _id: string;
   numero: string;
   titre: string;
-  type: "amenagement_complet" | "renovation";
+  type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
   coverImage: string;
   vehicule?: {
@@ -37,11 +37,16 @@ interface Realisation {
     technique?: string[];
     exterieur?: string[];
   };
+  photosRenovation?: {
+    avant?: string[];
+    apres?: string[];
+  };
 }
 
 export default function RealisationsPage() {
   const [amenagements, setAmenagements] = useState<Realisation[]>([]);
   const [renovations, setRenovations] = useState<Realisation[]>([]);
+  const [accessoires, setAccessoires] = useState<Realisation[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,6 +62,7 @@ export default function RealisationsPage() {
         data.filter((r: Realisation) => r.type === "amenagement_complet")
       );
       setRenovations(data.filter((r: Realisation) => r.type === "renovation"));
+      setAccessoires(data.filter((r: Realisation) => r.type === "pose_accessoires"));
     } catch (error) {
       console.error("Erreur:", error);
     } finally {
@@ -170,7 +176,38 @@ export default function RealisationsPage() {
               </section>
             )}
 
-            {amenagements.length === 0 && renovations.length === 0 && (
+            {/* Pose d'accessoires */}
+            {accessoires.length > 0 && (
+              <section className="py-20 bg-white">
+                <div className="container mx-auto px-4 lg:px-8">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-4">
+                      Pose d'<span className="text-secondary">accessoires</span>
+                    </h2>
+                    <p className="text-gray-600 mb-12">
+                      Installation d'équipements et d'accessoires sur mesure
+                    </p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {accessoires.map((realisation, index) => (
+                        <RealisationCard
+                          key={realisation._id}
+                          realisation={realisation}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                </div>
+              </section>
+            )}
+
+            {amenagements.length === 0 && renovations.length === 0 && accessoires.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-gray-500">
                   Aucune réalisation disponible pour le moment

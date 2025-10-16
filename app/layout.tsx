@@ -4,6 +4,7 @@ import "./globals.css";
 import { CookieConsent } from "@/components/CookieConsent";
 import { StructuredData } from "@/components/StructuredData";
 import { AnalyticsTracker } from "@/components/AnalyticsTracker";
+import ActualiteModal from "@/components/ActualiteModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,6 +82,7 @@ export default function RootLayout({
         <AnalyticsTracker />
         {children}
         <CookieConsent />
+        <ActualiteModal />
       </body>
     </html>
   );
