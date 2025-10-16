@@ -72,6 +72,7 @@ export default function RealisationDetailPage() {
 
   useEffect(() => {
     loadRealisation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   const loadRealisation = async () => {

@@ -5,12 +5,13 @@ import Actualite from "@/models/Actualite";
 // GET - Récupérer une actualité par ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
+    const { id } = await params;
 
-    const actualite = await Actualite.findById(params.id);
+    const actualite = await Actualite.findById(id);
 
     if (!actualite) {
       return NextResponse.json(
@@ -32,20 +33,21 @@ export async function GET(
 // PUT - Mettre à jour une actualité
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
+    const { id } = await params;
 
     const body = await request.json();
 
     // Si on active cette actualité, désactiver toutes les autres
     if (body.active) {
-      await Actualite.updateMany({ _id: { $ne: params.id } }, { active: false });
+      await Actualite.updateMany({ _id: { $ne: id } }, { active: false });
     }
 
     const actualite = await Actualite.findByIdAndUpdate(
-      params.id,
+      id,
       body,
       { new: true, runValidators: true }
     );
@@ -70,12 +72,13 @@ export async function PUT(
 // DELETE - Supprimer une actualité
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
+    const { id } = await params;
 
-    const actualite = await Actualite.findByIdAndDelete(params.id);
+    const actualite = await Actualite.findByIdAndDelete(id);
 
     if (!actualite) {
       return NextResponse.json(

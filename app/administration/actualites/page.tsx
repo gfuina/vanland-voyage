@@ -279,6 +279,7 @@ function ActualiteModal({
     if (actualiteId) {
       loadActualite();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actualiteId]);
 
   const loadActualite = async () => {

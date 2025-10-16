@@ -243,6 +243,7 @@ function BuilderModal({
     if (realisationId) {
       loadRealisation();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [realisationId]);
 
   const loadRealisation = async () => {
@@ -753,8 +754,6 @@ function Step2({
 function Step3Amenagement({
   formData,
   setFormData,
-  onUpload,
-  uploading,
 }: {
   formData: Partial<Realisation>;
   setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
@@ -1096,15 +1095,16 @@ function Step4Photos({
 function Step4PhotosRenovation({
   formData,
   setFormData,
-  onUpload,
-  uploading,
 }: {
   formData: Partial<Realisation>;
   setFormData: React.Dispatch<React.SetStateAction<Partial<Realisation>>>;
   onUpload: (file: File, category?: keyof Realisation["photos"]) => Promise<void>;
   uploading: boolean;
 }) {
+  const [uploading, setUploading] = useState(false);
+
   const handleUploadRenovation = async (file: File, type: "avant" | "apres") => {
+    setUploading(true);
     const fd = new FormData();
     fd.append("file", file);
 
@@ -1126,6 +1126,8 @@ function Step4PhotosRenovation({
     } catch (error) {
       console.error("Erreur upload:", error);
       alert("Erreur lors de l'upload");
+    } finally {
+      setUploading(false);
     }
   };
 

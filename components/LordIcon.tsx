@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface LordIconProps {
   src: string;
@@ -15,9 +15,17 @@ interface LordIconProps {
 }
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace JSX {
     interface IntrinsicElements {
-      "lord-icon": any;
+      "lord-icon": React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        src?: string;
+        trigger?: string;
+        colors?: string;
+        stroke?: string | number;
+        delay?: number;
+        state?: string;
+      };
     }
   }
 }
@@ -45,7 +53,7 @@ export default function LordIcon({
     }
   }, []);
 
-  const iconProps: any = {
+  const iconProps: Record<string, string | number | React.CSSProperties> = {
     src,
     trigger,
     style: {
@@ -60,12 +68,10 @@ export default function LordIcon({
   if (delay) iconProps.delay = delay;
   if (state) iconProps.state = state;
 
-  return (
-    <lord-icon
-      ref={iconRef}
-      className={className}
-      {...iconProps}
-    />
-  );
+  return React.createElement("lord-icon", {
+    ref: iconRef,
+    className,
+    ...iconProps,
+  });
 }
 

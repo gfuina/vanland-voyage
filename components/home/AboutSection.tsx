@@ -4,8 +4,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { getAnimation } from "@/lib/animations";
-import LordIcon from "@/components/LordIcon";
-import { VanlandIcons } from "@/components/LordIconExamples";
 import LottieIcon from "@/components/LottieIcon";
 
 // Import des animations Lottie locales

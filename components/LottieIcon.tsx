@@ -4,7 +4,7 @@ import { useRef, useMemo } from "react";
 import Lottie, { LottieRefCurrentProps } from "lottie-react";
 
 interface LottieIconProps {
-  animationData: any; // JSON Lottie data
+  animationData: object; // JSON Lottie data
   size?: number;
   loop?: boolean;
   autoplay?: boolean;
@@ -34,32 +34,34 @@ function rgbMatch(rgb1: number[], rgb2: [number, number, number]): boolean {
 }
 
 // Fonction récursive pour remplacer les couleurs dans l'animation
-function replaceColors(obj: any, replacements: { [key: string]: string }): any {
+function replaceColors(obj: unknown, replacements: { [key: string]: string }): unknown {
   if (Array.isArray(obj)) {
     return obj.map((item) => replaceColors(item, replacements));
   } else if (obj !== null && typeof obj === "object") {
-    const newObj: any = {};
-    for (const key in obj) {
-      if (key === "k" && Array.isArray(obj[key]) && obj[key].length >= 3) {
+    const newObj: Record<string, unknown> = {};
+    const objRecord = obj as Record<string, unknown>;
+    for (const key in objRecord) {
+      if (key === "k" && Array.isArray(objRecord[key]) && (objRecord[key] as unknown[]).length >= 3) {
         // C'est potentiellement une couleur RGB
-        const currentRgb = obj[key].slice(0, 3);
+        const keyArray = objRecord[key] as number[];
+        const currentRgb = keyArray.slice(0, 3);
         let replaced = false;
 
         for (const [fromHex, toHex] of Object.entries(replacements)) {
           const fromRgb = hexToRgb(fromHex);
           if (rgbMatch(currentRgb, fromRgb)) {
             const toRgb = hexToRgb(toHex);
-            newObj[key] = [...toRgb, ...(obj[key].length > 3 ? [obj[key][3]] : [])];
+            newObj[key] = [...toRgb, ...(keyArray.length > 3 ? [keyArray[3]] : [])];
             replaced = true;
             break;
           }
         }
 
         if (!replaced) {
-          newObj[key] = replaceColors(obj[key], replacements);
+          newObj[key] = replaceColors(objRecord[key], replacements);
         }
       } else {
-        newObj[key] = replaceColors(obj[key], replacements);
+        newObj[key] = replaceColors(objRecord[key], replacements);
       }
     }
     return newObj;
