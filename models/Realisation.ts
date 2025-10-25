@@ -21,6 +21,7 @@ export interface IRealisation {
   titre: string; // Ex: "FIAT DUCATO H2L3 - 2025"
   type: "amenagement_complet" | "renovation" | "pose_accessoires"; 
   description: string; // Description générale/intro
+  descriptionRapide?: string; // Description courte pour les cards
   coverImage: string; // Image de couverture
   photos: IRealisationPhotos; // Photos catégorisées
   photosRenovation?: IRealisationPhotosRenovation; // Photos avant/après pour rénovations
@@ -72,6 +73,10 @@ const RealisationSchema = new Schema<IRealisation>(
     description: {
       type: String,
       required: [true, "La description est requise"],
+    },
+    descriptionRapide: {
+      type: String,
+      required: false,
     },
     coverImage: {
       type: String,

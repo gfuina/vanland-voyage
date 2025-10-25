@@ -72,7 +72,7 @@ export function HeroSection() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-lg md:text-xl text-white/90 mb-6 max-w-3xl"
             >
-              Proximité, transparence et qualité au service de votre projet
+              Transparence, ingéniosité, passion et une touche d'humour seront au rendez-vous !
             </motion.p>
 
             {/* CTA Buttons */}

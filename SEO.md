@@ -79,7 +79,7 @@ Implémentées dans `components/StructuredData.tsx` :
 - aménagement complet fourgon Tours
 - homologation VASP Indre-et-Loire
 - atelier aménagement van Tours
-- projet aménagement van sur mesure
+- projet aménagement van sur-mesure
 
 ## 📊 Recommandations Supplémentaires
 

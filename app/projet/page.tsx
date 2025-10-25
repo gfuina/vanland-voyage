@@ -8,7 +8,6 @@ import { Footer } from "@/components/layout/Footer";
 import LottieIcon from "@/components/LottieIcon";
 
 // Import des animations Lottie
-import travelAnimation from "@/public/lotties/travel.json";
 import configVehicleAnimation from "@/public/lotties/config-vehicle.json";
 import buildVanAnimation from "@/public/lotties/build-van.json";
 import globeAnimation from "@/public/lotties/globe.json";
@@ -28,36 +27,27 @@ export default function ProjetPage() {
   const mainSteps = [
     {
       number: "1",
-      title: "Explorez le voyage en van et vos désirs pour votre futur aménagement",
-      subtitle: "Louez notre van tout équipé",
-      duration: "de 2 à 7 jours",
-      description: "Testez la vie en van avant de vous lancer ! Découvrez vos besoins réels en condition.",
-      rotate: "rotate-1",
-      lottie: travelAnimation,
-    },
-    {
-      number: "2",
       title: "Créez le véhicule de vos rêves",
       features: ["Étude de vos besoins", "Plan technique", "Cahier des charges"],
       description: "Nous concrétisons vos envies avec des plans 2D et 3D personnalisés.",
-      rotate: "-rotate-1",
+      rotate: "rotate-1",
       lottie: configVehicleAnimation,
     },
     {
-      number: "3",
+      number: "2",
       title: "Nous réalisons l'aménagement complet dans notre atelier à Tours",
       subtitle: "De la recherche du véhicule jusqu'à l'homologation VASP",
       extra: "Besoin d'un coup de main ? Aménagements partiels et poses d'accessoires !",
-      rotate: "rotate-2",
+      rotate: "-rotate-1",
       lottie: buildVanAnimation,
     },
     {
-      number: "4",
+      number: "3",
       title: "Découvrez votre véhicule et partez à l'aventure",
       subtitle: "Formation complète incluse",
       description: "Récupérez votre van aménagé clé en main, prêt pour tous vos voyages !",
       duration: "Garantie 2 ans",
-      rotate: "-rotate-2",
+      rotate: "rotate-2",
       lottie: globeAnimation,
     },
   ];
@@ -70,7 +60,6 @@ export default function ProjetPage() {
       content: [
         "Vous avez une idée de projet, des questions, une hésitation, contactez-nous et nous parlerons de votre projet, cela ne vous engage en rien !",
         "Si vous connaissez vos envies et besoins, nous pourrons vous transmettre un questionnaire complet pour comprendre votre projet.",
-        "Si vous ne savez pas encore exactement ce que vous voulez, vous pouvez louer notre véhicule de démonstration et affiner vos envies pour remplir notre questionnaire.",
       ],
     },
     {
@@ -78,7 +67,7 @@ export default function ProjetPage() {
       title: "Découverte du projet",
       lottie: questionAnimation,
       content: [
-        "Après nous avoir retourné le questionnaire, nous réalisons une étude rapide de faisabilité et nous réalisons un premier chiffrage. Nous vous présentons un premier projet avec nos délais prévisionnels lors d'un rdv en visio ou à l'atelier. Si le projet vous plait, nous affinerons alors le devis ensemble.",
+        "Après nous avoir retourné le questionnaire, nous réalisons une étude rapide de faisabilité et nous réalisons un premier chiffrage. Nous vous présentons le projet avec nos délais prévisionnels et un plan 2D lors d'un rendez-vous. Si le projet vous plait, nous affinerons alors le devis.",
       ],
     },
     {
@@ -94,17 +83,22 @@ export default function ProjetPage() {
       title: "Recherche du véhicule",
       lottie: searchAnimation,
       content: [
-        "Le projet se précise maintenant il vous faut un véhicule ! Soit, vous l'avez déjà, passez tout de suite à l'étape 5, soit vous ne l'avez pas encore et nous vous proposons de vous accompagner dans le choix et la recherche de votre véhicule.",
-        "Pour information, nous travaillons avec des véhicules neufs ou d'occasions (Fiat Ducato, Peugeot Boxer, Citroën Jumper, VW Crafter, Mercedes Sprinter…).",
+        "Le projet se précise maintenant il vous faut un véhicule ! Soit, vous l'avez déjà, passez tout de suite à l'étape 5, soit vous ne l'avez pas encore et nous vous proposons plusieurs solutions :",
       ],
+      list: [
+        "La recherche de véhicule d'occasion avec un courtier partenaire",
+        "L'achat d'un véhicule FIAT neuf auprès de notre concession partenaire",
+      ],
+      footer: "Nos aménagements complets sont réalisés exclusivement sur des fourgons à partir du H2L2, avec des véhicules neufs ou d'occasions de toute marque.",
     },
     {
       number: "5",
       title: "Cahier des charges & plans",
       lottie: planAnimation,
       content: [
-        "Votre compagnon de route trouvé, nous passons à l'étape de validation. Nous partons de la première version du projet et du devis pour créer des plans 2D et 3D de votre futur fourgon puis nous rédigeons le cahier des charges complet : les revêtements, couleurs, boutons, finitions, tiroirs… Nous n'allons pas tout lister ici, cela serait beaucoup trop long 😉.",
-        "Une fois les plans définitifs et le cahier des charges validés, nous ajustons le devis en fonction des modifications (si elles sont importantes). Ensuite, nous vous demandons de nous verser un acompte de 50% (1 mois avant le début des travaux) afin de commander auprès de nos fournisseurs tout le matériel nécessaire à la réalisation de votre projet.",
+        "Votre compagnon de route trouvé, nous passons à l'étape de validation. Nous partons de la première version du projet et du devis pour créer des plans 3D, avec notre architecte d'intérieur Meredith, de votre futur fourgon.",
+        "Ensuite nous rédigeons le cahier des charges complet : les revêtements, couleurs, boutons, finitions, tiroirs… Nous n'allons pas tout lister ici, cela serait beaucoup trop long 😉.",
+        "Une fois les plans définitifs et le cahier des charges validés, nous ajustons le devis en fonction des modifications (si elles sont importantes). Ensuite, nous vous demandons de nous verser un acompte de 50% 1 mois avant le début des travaux afin de commander auprès de nos fournisseurs tout le matériel nécessaire à la réalisation de votre projet.",
       ],
     },
     {
@@ -112,11 +106,11 @@ export default function ProjetPage() {
       title: "L'aménagement",
       lottie: buildAnimation,
       content: [
-        "Nous arrivons au début des travaux, vous allez nous confier votre van et c'est parti pour 3 mois (3 moiiiiis ?! ) ! Les étapes de transformations sont les suivantes :",
+        "Nous arrivons au début des travaux, vous allez nous confier votre fourgon et c'est parti pour 6 mois soit environ 800h de transformation ! Les étapes de transformations sont les suivantes :",
       ],
       list: [
         "Préparation du véhicule : démontage et nettoyage",
-        "Isolation : liège projeté So Liège, isolation Biofib Trio et pare-vapeur",
+        "Isolation : liège projeté, isolation en textile recyclé et frein-vapeur",
         "Ouvertures : baies, fenêtres, lanterneaux, toit relevable",
         "Électricité : installation Victron Énergy 100% autonome",
         "Plomberie : chauffage, chauffe-eau, douche, évier, etc.",
@@ -130,7 +124,7 @@ export default function ProjetPage() {
       title: "Homologation VASP",
       lottie: vaspAnimation,
       content: [
-        "Une fois l'aménagement terminé, il ne reste plus qu'à réaliser le passage à la DREAL pour que votre véhicule soit totalement aux normes ! Pour cela, nous nous occupons de tout : l'aménagement répond aux exigences AFNOR, notices COC, dossier de conformité RTI, VASP Autocaravane, plans côtés, répartitions des charges. Une fois le passage réalisé, votre Carte Grise change et votre van est prêt à voyager !",
+        "Une fois l'aménagement terminé, il ne reste plus qu'à réaliser le passage à la DREAL pour que votre véhicule soit aux normes ! Pour cela, nous nous occupons de tout : l'aménagement répond aux exigences AFNOR et nous réalisons le dossier complet : notices COC, dossier de conformité RTI, VASP Autocaravane, plans côtés, répartitions des charges. Une fois le passage réalisé, votre Carte Grise change et votre fourgon est prêt à voyager !",
       ],
     },
     {
@@ -138,7 +132,7 @@ export default function ProjetPage() {
       title: "Livraison",
       lottie: livraisonAnimation,
       content: [
-        "Le jour J est arrivé, vous pouvez venir découvrir votre van comme vous l'aviez rêvé. Nous en profitons également pour vous former sur le fonctionnement du véhicule et de tous les appareils. Nous ferons en sorte que cette journée soit inoubliable !",
+        "Le jour J est arrivé, vous pouvez venir découvrir votre fourgon comme vous l'aviez rêvé. Nous en profitons également pour vous former sur le fonctionnement du véhicule et de tous les appareils. Nous ferons en sorte que cette journée soit inoubliable !",
       ],
     },
     {
@@ -161,7 +155,7 @@ export default function ProjetPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/campervan-11.JPG"
-            alt="Aménagement de van sur mesure"
+            alt="Aménagement de van sur-mesure"
             fill
             className="object-cover"
             priority
@@ -186,7 +180,7 @@ export default function ProjetPage() {
                 className="inline-block mb-4"
               >
                 <span className="inline-flex items-center gap-2 px-5 py-3 bg-accent text-navy font-bold text-sm rounded-2xl shadow-lg -rotate-1 hover:rotate-0 transition-transform duration-300">
-                  Votre aventure commence ici
+                  Votre expérience d'aménagement commence ici
                 </span>
               </motion.div>
 
@@ -206,7 +200,7 @@ export default function ProjetPage() {
                 transition={{ duration: 0.8, delay: 0.5 }}
                 className="text-xl text-white/90 mb-8"
               >
-                Votre expérience d'aménagement commence ici !
+                De la conception à la livraison, découvrez votre projet étape par étape
               </motion.p>
 
               {/* CTA Buttons */}
@@ -251,12 +245,12 @@ export default function ProjetPage() {
                 className="mt-8 lg:mt-12 grid grid-cols-3 gap-3 sm:gap-6"
               >
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-1">9</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-1">3</div>
                   <div className="text-xs sm:text-sm text-white/80">Étapes claires</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-1">3</div>
-                  <div className="text-xs sm:text-sm text-white/80">Mois de travaux</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-accent mb-1">800h</div>
+                  <div className="text-xs sm:text-sm text-white/80">De travaux</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl sm:text-3xl font-bold text-accent mb-1">2</div>
@@ -300,7 +294,7 @@ export default function ProjetPage() {
       {/* Main Steps - Visual Timeline */}
       <section className="py-12 sm:py-20 lg:py-32 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {mainSteps.map((step, index) => (
               <motion.div
                 key={index}
@@ -408,86 +402,60 @@ export default function ProjetPage() {
                 className="relative"
               >
                 <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-6 sm:p-8 lg:p-10 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300">
-                  {/* Mobile Layout */}
-                  <div className="sm:hidden">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-accent to-yellow-400 rounded-2xl flex items-center justify-center text-navy text-xl font-bold shadow-md -rotate-6 flex-shrink-0">
-                        {step.number}
-                      </div>
-                      <h3 className="text-xl font-bold text-navy flex-1">
-                        {step.title}
-                      </h3>
-                    </div>
-                    <div className="flex justify-center mb-6">
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                    {/* Lottie Icon */}
+                    <div className="flex-shrink-0 flex items-center justify-center">
                       <LottieIcon
                         animationData={step.lottie}
-                        size={80}
+                        size={72}
                         loop={true}
                         autoplay={true}
                       />
                     </div>
-                  </div>
 
-                  {/* Desktop Layout */}
-                  <div className="hidden sm:flex items-start gap-6">
-                    <div className="flex-shrink-0">
-                      <div className="w-14 h-14 bg-gradient-to-br from-accent to-yellow-400 rounded-2xl flex items-center justify-center text-navy text-2xl font-bold shadow-md -rotate-6 mb-4">
-                        {step.number}
-                      </div>
-                      <div className="flex justify-center">
-                        <LottieIcon
-                          animationData={step.lottie}
-                          size={80}
-                          loop={true}
-                          autoplay={true}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex-1">
-                      <h3 className="text-2xl lg:text-3xl font-bold text-navy mb-4">
+                    {/* Content */}
+                    <div className="flex-1 w-full">
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-navy mb-4 text-center sm:text-left">
+                        <span className="text-accent mr-2">{step.number}.</span>
                         {step.title}
                       </h3>
-                    </div>
-                  </div>
+                      
+                      <div className="space-y-3 sm:space-y-4">
+                        {step.content.map((paragraph, i) => (
+                          <p key={i} className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                            {paragraph}
+                          </p>
+                        ))}
 
-                  {/* Content - Same for both layouts */}
-                  <div className="sm:ml-[104px]">
-                    <div className="space-y-3 sm:space-y-4">
-                      {step.content.map((paragraph, i) => (
-                        <p key={i} className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                          {paragraph}
-                        </p>
-                      ))}
+                        {step.list && (
+                          <ul className="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
+                            {step.list.map((item, i) => (
+                              <li
+                                key={i}
+                                className="flex items-start gap-2 sm:gap-3 text-gray-700"
+                              >
+                                <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-secondary/20 rounded-full flex items-center justify-center text-secondary text-xs sm:text-sm font-bold mt-0.5">
+                                  ✓
+                                </span>
+                                <span className="text-sm sm:text-base">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
 
-                      {step.list && (
-                        <ul className="space-y-2 sm:space-y-3 mt-4 sm:mt-6">
-                          {step.list.map((item, i) => (
-                            <li
-                              key={i}
-                              className="flex items-start gap-2 sm:gap-3 text-gray-700"
-                            >
-                              <span className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-secondary/20 rounded-full flex items-center justify-center text-secondary text-xs sm:text-sm font-bold mt-0.5">
-                                ✓
-                              </span>
-                              <span className="text-sm sm:text-base">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {step.footer && (
-                        <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-3 sm:mt-4 italic">
-                          {step.footer}
-                        </p>
-                      )}
+                        {step.footer && (
+                          <p className="text-sm sm:text-base text-gray-700 leading-relaxed mt-3 sm:mt-4 italic">
+                            {step.footer}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Connector line (except for last item) */}
                 {index < detailedSteps.length - 1 && (
-                  <div className="hidden sm:block absolute left-10 top-full h-8 w-1 bg-gradient-to-b from-accent/50 to-transparent" />
+                  <div className="hidden sm:block absolute left-12 sm:left-14 top-full h-8 w-1 bg-gradient-to-b from-accent/50 to-transparent" />
                 )}
               </motion.div>
             ))}

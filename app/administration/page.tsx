@@ -326,6 +326,42 @@ export default function AdministrationPage() {
               </a>
             </motion.div>
 
+            {/* Équipe Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/50 hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mb-6 rotate-2">
+                <svg
+                  className="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-2">
+                Équipe
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Gérer l'équipe et les partenaires externes affichés sur la page À propos
+              </p>
+              <a
+                href="/administration/equipe"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
+              >
+                Gérer l'équipe
+              </a>
+            </motion.div>
+
           </div>
 
           {/* Quick Stats */}

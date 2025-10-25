@@ -8,7 +8,7 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { getAnimation, getStaggerAnimation } from "@/lib/animations";
+import { getAnimation } from "@/lib/animations";
 import LottieIcon from "@/components/LottieIcon";
 
 // Import de l'animation Lottie
@@ -104,91 +104,58 @@ export function PartnersSection() {
           </p>
         </motion.div>
 
-        {/* Mobile Carousel */}
-        <div className="md:hidden mb-16">
+        {/* Partners Carousel */}
+        <div className="mb-16">
           <Swiper
             modules={[Autoplay, Pagination]}
             spaceBetween={16}
-            slidesPerView={1.1}
+            slidesPerView={1.2}
             centeredSlides={false}
+            loop={true}
             autoplay={{
-              delay: 3500,
+              delay: 3000,
               disableOnInteraction: false,
             }}
             pagination={{
               clickable: true,
             }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2.2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3.5,
+                spaceBetween: 32,
+              },
+            }}
             className="!pb-12"
           >
             {partners.map((partner, index) => (
               <SwiperSlide key={partner._id}>
-                <div className={`bg-white rounded-3xl p-6 shadow-lg border-2 border-gray-100 ${
-                  index % 3 === 0 ? "rotate-1" : index % 3 === 1 ? "-rotate-1" : "rotate-2"
-                }`}>
+                <div className={`bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${rotations[index % rotations.length]}`}>
                   {/* Logo Container */}
-                  <div className="relative h-24 mb-6 flex items-center justify-center bg-gray-50 rounded-2xl p-4">
+                  <div className="relative h-32 mb-4 flex items-center justify-center p-4">
                     <Image
                       src={partner.logo}
                       alt={partner.name}
                       fill
                       className="object-contain p-2"
-                      sizes="100vw"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
 
                   {/* Partner Info */}
                   <div className="text-center">
-                    <h3 className="text-xl font-bold text-navy mb-2">
-                      {partner.name}
-                    </h3>
-                    <p className="text-secondary font-semibold mb-2">
-                      {partner.description}
-                    </p>
-                    <p className="text-sm text-gray-600">{partner.subtitle}</p>
+                    <p className="text-base font-semibold text-navy">{partner.subtitle}</p>
                   </div>
 
                   {/* Decorative element */}
-                  <div className="mt-6 h-1 w-16 bg-accent rounded-full mx-auto" />
+                  <div className="mt-4 h-1 w-16 bg-accent rounded-full mx-auto" />
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
-        </div>
-
-        {/* Desktop Grid */}
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-8">
-          {partners.map((partner, index) => (
-            <motion.div
-              key={partner._id}
-              {...getStaggerAnimation(isMobile, index)}
-              className={`group bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${rotations[index % rotations.length]}`}
-            >
-              {/* Logo Container */}
-              <div className="relative h-24 mb-6 flex items-center justify-center bg-gray-50 rounded-2xl p-4 group-hover:bg-secondary/5 transition-colors duration-300">
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  fill
-                  className="object-contain p-2"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </div>
-
-              {/* Partner Info */}
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-navy mb-2">
-                  {partner.name}
-                </h3>
-                <p className="text-secondary font-semibold mb-2">
-                  {partner.description}
-                </p>
-                <p className="text-sm text-gray-600">{partner.subtitle}</p>
-              </div>
-
-              {/* Decorative element */}
-              <div className="mt-6 h-1 w-16 bg-accent rounded-full mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </motion.div>
-          ))}
         </div>
 
         {/* CTA */}

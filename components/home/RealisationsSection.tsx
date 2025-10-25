@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import LottieIcon from "@/components/LottieIcon";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { getAnimation, getStaggerAnimation } from "@/lib/animations";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
+import { useEffect, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { useIsMobile } from "@/hooks/useIsMobile";
-import { getAnimation, getStaggerAnimation } from "@/lib/animations";
-import LottieIcon from "@/components/LottieIcon";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import de l'animation Lottie
 import mesureAnimation from "@/public/lotties/mesure.json";
@@ -21,6 +21,7 @@ interface Realisation {
   titre: string;
   type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
+  descriptionRapide?: string;
   coverImage: string;
 }
 
@@ -58,19 +59,18 @@ export function RealisationsSection() {
   return (
     <section className="py-24 lg:py-40 bg-gray-50 relative overflow-hidden">
       {/* Diagonal separator top */}
-      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-white via-white to-transparent" 
-           style={{ clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 100%)" }} />
-      
+      <div
+        className="absolute top-0 left-0 w-full h-24 bg-gradient-to-br from-white via-white to-transparent"
+        style={{ clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 100%)" }}
+      />
+
       {/* Background decorations */}
       <div className="absolute top-0 left-0 w-1/3 h-1/3 bg-secondary/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-0 w-1/4 h-1/4 bg-accent/5 rounded-full blur-3xl" />
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Header */}
-        <motion.div
-          {...animation}
-          className="text-center mb-12 lg:mb-16"
-        >
+        <motion.div {...animation} className="text-center mb-12 lg:mb-16">
           <div className="flex justify-center mb-6">
             <LottieIcon
               animationData={mesureAnimation}
@@ -83,12 +83,11 @@ export function RealisationsSection() {
             Nos dernières réalisations
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-navy mb-6">
-            Des projets{" "}
-            <span className="text-secondary">sur mesure</span>
+            Des projets <span className="text-secondary">sur-mesure</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Découvrez quelques-unes de nos réalisations : aménagements complets
-            et rénovations de fourgons
+            Découvrez quelques-unes de nos réalisations : aménagements complets,
+            rénovations de fourgons et poses d'accessoires
           </p>
         </motion.div>
 
@@ -134,7 +133,7 @@ export function RealisationsSection() {
                       {realisation.titre}
                     </h3>
                     <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
-                      {realisation.description}
+                      {realisation.descriptionRapide || realisation.description}
                     </p>
                     <div className="flex items-center gap-2 text-secondary font-semibold">
                       <span>Voir plus</span>
@@ -189,7 +188,7 @@ export function RealisationsSection() {
                     {realisation.titre}
                   </h3>
                   <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
-                    {realisation.description}
+                    {realisation.descriptionRapide || realisation.description}
                   </p>
                   <div className="flex items-center gap-2 text-secondary font-semibold">
                     <span>Voir plus</span>
@@ -214,10 +213,7 @@ export function RealisationsSection() {
         </div>
 
         {/* CTA */}
-        <motion.div
-          {...animation}
-          className="text-center"
-        >
+        <motion.div {...animation} className="text-center">
           <Link
             href="/realisations"
             className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-secondary to-blue-500 text-white font-bold rounded-2xl hover:shadow-xl hover:scale-105 transition-all duration-300"
@@ -242,4 +238,3 @@ export function RealisationsSection() {
     </section>
   );
 }
-

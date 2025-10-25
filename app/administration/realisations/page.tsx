@@ -11,6 +11,7 @@ interface Realisation {
   titre: string;
   type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
+  descriptionRapide?: string;
   coverImage: string;
   photos: {
     general?: string[];
@@ -566,6 +567,24 @@ function Step1({
             setFormData({ ...formData, description: e.target.value })
           }
           rows={6}
+          className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-secondary resize-none text-navy bg-white"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-navy mb-2">
+          Description rapide
+        </label>
+        <p className="text-xs text-gray-500 mb-2">
+          Courte description affichée sur les cards (optionnel). Si vide, un extrait de la description générale sera utilisé.
+        </p>
+        <textarea
+          placeholder="Version courte pour l'aperçu..."
+          value={formData.descriptionRapide || ""}
+          onChange={(e) =>
+            setFormData({ ...formData, descriptionRapide: e.target.value })
+          }
+          rows={3}
           className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:border-secondary resize-none text-navy bg-white"
         />
       </div>

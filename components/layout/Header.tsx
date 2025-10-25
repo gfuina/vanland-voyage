@@ -24,7 +24,8 @@ export function Header() {
   const menuItems = [
     { label: "Nos prestations", href: "/prestations" },
     { label: "Nos réalisations", href: "/realisations" },
-    { label: "Votre projet complet", href: "/projet" },
+    { label: "Nos formations", href: "/formation" },
+    { label: "Votre projet", href: "/projet" },
     { label: "Nous connaitre", href: "/about" },
     { label: "Boutique", href: "/boutique" },
     // { label: "CGV - Atelier", href: "/cgv" },

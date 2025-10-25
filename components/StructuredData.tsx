@@ -8,7 +8,7 @@ export function StructuredData() {
     "url": "https://vanland-voyage.fr",
     "logo": "https://vanland-voyage.fr/logo.png",
     "image": "https://vanland-voyage.fr/images/hero.jpg",
-    "description": "Artisans passionnés spécialisés dans l'aménagement de fourgons sur mesure près de Tours. Projet complet, rénovation, pose d'accessoires.",
+    "description": "Artisans passionnés spécialisés dans l'aménagement de fourgons sur-mesure près de Tours. Projet complet, rénovation, pose d'accessoires.",
     "telephone": "+33756858541",
     "email": "contact@vanland-voyage.fr",
     "address": {

@@ -389,9 +389,18 @@ export default function ContactPage() {
                         <option value="Aménagement partiel">
                           Aménagement partiel
                         </option>
+                        <option value="Rénovation">Rénovation</option>
+                        <option value="Réparation ou amélioration">
+                          Réparation ou amélioration
+                        </option>
                         <option value="Poses d'accessoires">
                           Poses d'accessoires
                         </option>
+                        <option value="Vente d'accessoires">
+                          Vente d'accessoires
+                        </option>
+                        <option value="Conseil">Conseil</option>
+                        <option value="Formation">Formation</option>
                         <option value="Stickers / VASP">Stickers / VASP</option>
                         <option value="Renseignements">Renseignements</option>
                       </select>

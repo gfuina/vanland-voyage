@@ -20,6 +20,7 @@ interface Realisation {
   titre: string;
   type: "amenagement_complet" | "renovation" | "pose_accessoires";
   description: string;
+  descriptionRapide?: string;
   coverImage: string;
   vehicule?: {
     marque?: string;
@@ -122,8 +123,7 @@ export default function RealisationsPage() {
                 Nos Réalisations
               </h1>
               <p className="text-lg text-white/90">
-                Découvrez nos aménagements complets et nos rénovations de
-                fourgons aménagés
+                Découvrez les projets qui sont passés entres nos mains.
               </p>
             </motion.div>
           </div>
@@ -197,7 +197,7 @@ export default function RealisationsPage() {
                       />
                     </div>
                     <div className="text-left">
-                      <div className="font-bold">Rénovations</div>
+                      <div className="font-bold">Rénovations et améliorations</div>
                       <div className="text-sm opacity-80">
                         {renovations.length} {renovations.length > 1 ? "réalisations" : "réalisation"}
                       </div>
@@ -253,7 +253,7 @@ export default function RealisationsPage() {
                             Nos aménagements <span className="text-secondary">complets</span>
                           </h2>
                           <p className="text-gray-600">
-                            Fourgons neufs entièrement aménagés par nos soins
+                            Fourgons aménagés de A à Z dans notre atelier
                           </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -319,7 +319,7 @@ export default function RealisationsPage() {
                             Pose d'<span className="text-secondary">accessoires</span>
                           </h2>
                           <p className="text-gray-600">
-                            Installation d'équipements et d'accessoires sur mesure
+                            Installation d'équipements et d'accessoires sur-mesure
                           </p>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -389,7 +389,7 @@ function RealisationCard({
             {realisation.titre}
           </h3>
           <p className="text-gray-600 line-clamp-3 mb-4 flex-1">
-            {realisation.description}
+            {realisation.descriptionRapide || realisation.description}
           </p>
           <div className="flex items-center gap-2 text-secondary font-semibold">
             <span>Voir plus</span>

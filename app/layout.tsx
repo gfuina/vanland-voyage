@@ -19,10 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://vanland-voyage.fr'),
   title: {
-    default: 'Vanland Voyage - Aménagement de Van sur Mesure à Tours',
+    default: 'Vanland Voyage - Aménagement de Van sur-Mesure à Tours',
     template: '%s | Vanland Voyage'
   },
-  description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur mesure près de Tours. Projet complet, rénovation, pose d\'accessoires. Qualité, proximité et transparence.',
+  description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur-mesure près de Tours. Projet complet, rénovation, pose d\'accessoires. Qualité, proximité et transparence.',
   keywords: ['aménagement van', 'aménagement fourgon', 'van aménagé Tours', 'fourgon aménagé', 'camper van', 'vanlife', 'aménagement camping-car', 'artisan van Tours', 'homologation VASP', 'isolation van', 'électricité van'],
   authors: [{ name: 'Vanland Voyage' }],
   creator: 'Vanland Voyage',
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     locale: 'fr_FR',
     url: 'https://vanland-voyage.fr',
     siteName: 'Vanland Voyage',
-    title: 'Vanland Voyage - Aménagement de Van sur Mesure à Tours',
-    description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur mesure près de Tours. Projet complet, rénovation, pose d\'accessoires.',
+    title: 'Vanland Voyage - Aménagement de Van sur-Mesure à Tours',
+    description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur-mesure près de Tours. Projet complet, rénovation, pose d\'accessoires.',
     images: [
       {
         url: '/images/hero.jpg',
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Vanland Voyage - Aménagement de Van sur Mesure à Tours',
-    description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur mesure près de Tours.',
+    title: 'Vanland Voyage - Aménagement de Van sur-Mesure à Tours',
+    description: 'Artisans passionnés spécialisés dans l\'aménagement de fourgons sur-mesure près de Tours.',
     images: ['/images/hero.jpg'],
   },
   robots: {
