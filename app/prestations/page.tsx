@@ -619,6 +619,21 @@ export default function PrestationsPage() {
                       <span className="text-secondary">de van ou fourgon ?</span>
                     </h2>
                   </motion.div>
+                  
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.15 }}
+                    className="inline-block"
+                  >
+                    <div className="px-6 py-3 bg-accent/10 border-2 border-accent rounded-2xl">
+                      <p className="text-navy font-bold text-lg">
+                        <span className="text-2xl text-secondary">72€</span>
+                        <span className="text-sm font-normal text-gray-600 ml-2">/ heure en visioconférence</span>
+                      </p>
+                    </div>
+                  </motion.div>
                 </div>
 
                 <motion.p
@@ -628,17 +643,7 @@ export default function PrestationsPage() {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="text-lg text-gray-700 leading-relaxed"
                 >
-                  Vous souhaitez aménager votre van ou fourgon par vous-même mais vous ne savez pas par où commencer et vous n'avez pas de compétences ? On vous propose une "master-class" dédiée ou simplement être conseillé et accompagné sur votre projet.
-                </motion.p>
-
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="text-gray-600 leading-relaxed"
-                >
-                  Nous pouvons vous proposer des visioconférences d'1h (tarif 72€/h).
+                  Vous souhaitez aménager votre van ou fourgon par vous-même mais vous ne savez pas par où commencer et vous n'avez pas de compétences ? On vous propose une "master-classe" dédiée ou simplement être conseillé et accompagné sur votre projet.
                 </motion.p>
 
                 <motion.div
@@ -679,7 +684,7 @@ export default function PrestationsPage() {
                     href="/formation"
                     className="inline-flex items-center gap-2 px-8 py-4 bg-secondary text-white font-bold text-lg rounded-2xl hover:bg-secondary/90 hover:scale-105 hover:rotate-0 -rotate-1 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
-                    Master-class
+                    Master-classe
                     <svg
                       className="w-5 h-5"
                       fill="none"

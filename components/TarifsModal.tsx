@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect } from "react";
+import Link from "next/link";
 
 interface TarifItem {
   nom: string;
@@ -117,7 +118,14 @@ export default function TarifsModal({
                   </p>
                 </div>
 
-                <div className="mt-4 sm:mt-6 flex justify-center">
+                <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                  <Link
+                    href="/contact"
+                    onClick={onClose}
+                    className="px-6 py-2.5 sm:px-8 sm:py-3 bg-secondary text-white font-bold text-sm sm:text-base rounded-xl sm:rounded-2xl hover:bg-secondary/90 transition-all duration-300 shadow-lg hover:shadow-xl text-center"
+                  >
+                    Demander un devis
+                  </Link>
                   <button
                     onClick={onClose}
                     className="px-6 py-2.5 sm:px-8 sm:py-3 bg-accent text-navy font-bold text-sm sm:text-base rounded-xl sm:rounded-2xl hover:bg-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl"

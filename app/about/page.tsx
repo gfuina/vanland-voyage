@@ -100,7 +100,7 @@ export default function AboutPage() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
               >
-                Entreprise aménageur de fourgon à{" "}
+                Entreprise artisanale d'aménagement de fourgon à{" "}
                 <span className="text-accent">Tours</span>
               </motion.h1>
             </motion.div>
@@ -439,72 +439,6 @@ export default function AboutPage() {
                   </p>
                 </motion.div>
               </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Values Section */}
-        <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
-          {/* Background decorations */}
-          <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-accent/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-secondary/5 rounded-full blur-3xl" />
-
-          <div className="container mx-auto px-4 lg:px-8 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl lg:text-4xl font-bold text-navy mb-4">
-                Nos <span className="text-secondary">valeurs</span>
-              </h2>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  lottie: customAnimation,
-                  title: "Personnalisé",
-                  description: "Chaque aménagement est unique et pensé selon vos besoins",
-                  rotate: "-rotate-1",
-                },
-                {
-                  lottie: qualityAnimation,
-                  title: "Qualité",
-                  description: "Des matériaux et équipements de première qualité",
-                  rotate: "rotate-1",
-                },
-                {
-                  lottie: ecoAnimation,
-                  title: "Éco-responsable",
-                  description: "Des solutions respectueuses de l'environnement",
-                  rotate: "-rotate-2",
-                },
-              ].map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className={`bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${value.rotate}`}
-                >
-                  <div className="flex justify-center mb-6">
-                    <LottieIcon
-                      animationData={value.lottie}
-                      size={80}
-                      loop={true}
-                      autoplay={true}
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-navy mb-3 text-center">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-600 text-center">{value.description}</p>
-                </motion.div>
-              ))}
             </div>
           </div>
         </section>

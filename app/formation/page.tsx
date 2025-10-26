@@ -32,6 +32,7 @@ interface FormData {
   // Logistique
   commentConnu: string;
   autreSource: string;
+  dateChoisie: string;
   recontacter: string;
 
   // RGPD
@@ -57,6 +58,7 @@ export default function FormationPage() {
     besoinSpecifique: "",
     commentConnu: "",
     autreSource: "",
+    dateChoisie: "",
     recontacter: "",
     rgpdConsent: false,
   });
@@ -68,6 +70,17 @@ export default function FormationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    // Validation : au moins une réponse pour les domaines et sujets
+    if (formData.domainesALaise.length === 0) {
+      setError("Veuillez sélectionner au moins un domaine");
+      return;
+    }
+    if (formData.sujetsInteressants.length === 0) {
+      setError("Veuillez sélectionner au moins un sujet d'intérêt");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -83,26 +96,31 @@ export default function FormationPage() {
           phone: formData.telephone,
           service: "Formation Master-Classe",
           message: `
-=== INSCRIPTION FORMATION MASTER-CLASSE ===
+<h3 style="color: #31ade1; margin-bottom: 15px; margin-top: 25px;">🚐 Votre Projet</h3>
+<table style="width: 100%; border-collapse: collapse;">
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Véhicule :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.hasVehicule}</td></tr>
+  ${formData.vehiculeDetails ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Détails véhicule :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.vehiculeDetails}</td></tr>` : ''}
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Stade du projet :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.projetStade}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Utilisation :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.utilisation}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Budget :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.budget}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Homologation VASP :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.vasp}</td></tr>
+</table>
 
-PROJET:
-- Possède un véhicule: ${formData.hasVehicule}
-- Détails véhicule: ${formData.vehiculeDetails}
-- Stade du projet: ${formData.projetStade}
-- Utilisation: ${formData.utilisation}
-- Budget: ${formData.budget}
-- VASP: ${formData.vasp}
+<h3 style="color: #31ade1; margin-bottom: 15px; margin-top: 25px;">🛠️ Compétences & Attentes</h3>
+<table style="width: 100%; border-collapse: collapse;">
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Niveau bricolage :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.niveauBricolage}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;"><strong>Domaines à l'aise :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.domainesALaise.join(", ")}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;"><strong>Sujets d'intérêt :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.sujetsInteressants.join(", ")}</td></tr>
+  ${formData.peurs ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;"><strong>Peurs/doutes :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.peurs}</td></tr>` : ''}
+  ${formData.besoinSpecifique ? `<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee; vertical-align: top;"><strong>Besoins spécifiques :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.besoinSpecifique}</td></tr>` : ''}
+</table>
 
-COMPÉTENCES:
-- Niveau bricolage: ${formData.niveauBricolage}
-- Domaines à l'aise: ${formData.domainesALaise.join(", ")}
-- Sujets intéressants: ${formData.sujetsInteressants.join(", ")}
-- Peurs/doutes: ${formData.peurs}
-- Besoins spécifiques: ${formData.besoinSpecifique}
-
-LOGISTIQUE:
-- Comment connu: ${formData.commentConnu} ${formData.autreSource}
-- Souhaite être recontacté: ${formData.recontacter}
+<h3 style="color: #31ade1; margin-bottom: 15px; margin-top: 25px;">📅 Logistique</h3>
+<table style="width: 100%; border-collapse: collapse;">
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Comment connu :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.commentConnu} ${formData.autreSource}</td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Date choisie :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong style="color: #f9c81c;">${formData.dateChoisie}</strong></td></tr>
+  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Souhaite être recontacté :</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.recontacter}</td></tr>
+</table>
           `,
           rgpdConsent: formData.rgpdConsent,
         }),
@@ -131,6 +149,7 @@ LOGISTIQUE:
           besoinSpecifique: "",
           commentConnu: "",
           autreSource: "",
+          dateChoisie: "",
           recontacter: "",
           rgpdConsent: false,
         });
@@ -355,7 +374,7 @@ LOGISTIQUE:
                 <h3 className="text-xl font-bold text-navy mb-4 flex items-center gap-2">
                   <span className="text-2xl">📅</span> Prochaines dates
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-3 mb-6">
                   {dates.map((date, index) => (
                     <div
                       key={index}
@@ -365,6 +384,16 @@ LOGISTIQUE:
                     </div>
                   ))}
                 </div>
+                <button
+                  onClick={() => {
+                    document
+                      .getElementById("formulaire-inscription")
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="w-full px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 hover:scale-105 transition-all duration-300 shadow-md"
+                >
+                  Inscrivez-vous
+                </button>
               </motion.div>
 
               {/* Détails */}
@@ -435,25 +464,25 @@ LOGISTIQUE:
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2">
                     <span className="text-accent mt-1">✓</span>
-                    <span>16 heures de cours présentiel</span>
+                    <span><span className="font-bold">16</span> heures de cours présentiel</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-accent mt-1">✓</span>
-                    <span>1 heure de coaching individuel sur votre projet</span>
+                    <span><span className="font-bold">1</span> heure de coaching individuel sur votre projet</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-accent mt-1">✓</span>
                     <span>
-                      Bon d'achat de 50€ à valoir sur nos prestations
+                      Bon d'achat de <span className="font-bold">50€</span> à valoir sur nos prestations
                     </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-accent mt-1">✓</span>
-                    <span>Pack de stickers pour l'homologation VASP</span>
+                    <span><span className="font-bold">1</span> Pack de stickers pour l'homologation VASP</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-accent mt-1">✓</span>
-                    <span>Synthèse PDF de la formation</span>
+                    <span><span className="font-bold">1</span> Synthèse PDF de la formation</span>
                   </li>
                 </ul>
               </div>
@@ -462,7 +491,10 @@ LOGISTIQUE:
         </section>
 
         {/* Formulaire d'inscription */}
-        <section className="py-20 lg:py-32 bg-white relative overflow-hidden">
+        <section
+          id="formulaire-inscription"
+          className="py-20 lg:py-32 bg-white relative overflow-hidden"
+        >
           <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-accent/5 rounded-full blur-3xl" />
 
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
@@ -604,7 +636,7 @@ LOGISTIQUE:
                     <div className="space-y-6">
                       <div>
                         <label className="block text-sm font-semibold text-navy mb-2">
-                          Avez-vous déjà un véhicule à aménager ?{" "}
+                          Avez-vous déjà un véhicule ? Si non, que recherchez-vous ?{" "}
                           <span className="text-red-500">*</span>
                         </label>
                         <select
@@ -623,7 +655,6 @@ LOGISTIQUE:
                           <option value="Non - Grand fourgon">
                             Non - Grand fourgon (ex: Ducato, Boxer, Sprinter...)
                           </option>
-                          <option value="Non - Autre">Non - Autre</option>
                         </select>
                       </div>
 
@@ -781,7 +812,8 @@ LOGISTIQUE:
 
                       <div>
                         <label className="block text-sm font-semibold text-navy mb-3">
-                          Dans quel domaine êtes-vous à l'aise ?
+                          Dans quel domaine êtes-vous à l'aise ?{" "}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="space-y-2">
                           {[
@@ -813,7 +845,8 @@ LOGISTIQUE:
 
                       <div>
                         <label className="block text-sm font-semibold text-navy mb-3">
-                          Quels sont les sujets qui vous intéressent le plus ?
+                          Quels sont les sujets qui vous intéressent le plus ?{" "}
+                          <span className="text-red-500">*</span>
                         </label>
                         <div className="grid md:grid-cols-2 gap-2">
                           {[
@@ -931,6 +964,27 @@ LOGISTIQUE:
                           />
                         </div>
                       )}
+
+                      <div>
+                        <label className="block text-sm font-semibold text-navy mb-2">
+                          Quelle date vous intéresse ?{" "}
+                          <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                          name="dateChoisie"
+                          value={formData.dateChoisie}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 rounded-2xl border-2 border-gray-200 focus:border-secondary focus:outline-none transition-colors bg-white text-navy"
+                          required
+                        >
+                          <option value="">-- Sélectionnez --</option>
+                          {dates.map((date, index) => (
+                            <option key={index} value={date}>
+                              {date}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
 
                       <div>
                         <label className="block text-sm font-semibold text-navy mb-2">
