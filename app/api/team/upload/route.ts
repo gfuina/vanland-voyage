@@ -1,8 +1,7 @@
-import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { NextRequest, NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("file") as File;
@@ -14,30 +13,23 @@ export async function POST(request: Request) {
       );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Créer un nom de fichier unique
-    const timestamp = Date.now();
-    const filename = `${timestamp}-${file.name.replace(/\s+/g, "-")}`;
-    const uploadDir = path.join(process.cwd(), "public", "images", "team");
-    
-    // Créer le dossier s'il n'existe pas
-    try {
-      await mkdir(uploadDir, { recursive: true });
-    } catch {
-      // Le dossier existe déjà
+    // Vérifier le type de fichier
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json(
+        { success: false, error: "Type de fichier non autorisé. Utilisez PNG, JPG ou WEBP" },
+        { status: 400 }
+      );
     }
 
-    const filepath = path.join(uploadDir, filename);
-    await writeFile(filepath, buffer);
-
-    // Retourner l'URL relative
-    const url = `/images/team/${filename}`;
+    // Upload vers Vercel Blob
+    const blob = await put(`team/${Date.now()}-${file.name}`, file, {
+      access: "public",
+    });
 
     return NextResponse.json({
       success: true,
-      url,
+      url: blob.url,
     });
   } catch (error) {
     console.error("Erreur lors de l'upload:", error);

@@ -20,6 +20,7 @@ interface Partner {
   logo: string;
   description: string;
   subtitle: string;
+  website?: string;
 }
 
 export function PartnersSection() {
@@ -129,30 +130,58 @@ export function PartnersSection() {
                 spaceBetween: 32,
               },
             }}
-            className="!pb-12"
+            className="pb-12!"
           >
             {partners.map((partner, index) => (
               <SwiperSlide key={partner._id}>
-                <div className={`bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${rotations[index % rotations.length]}`}>
-                  {/* Logo Container */}
-                  <div className="relative h-32 mb-4 flex items-center justify-center p-4">
-                    <Image
-                      src={partner.logo}
-                      alt={partner.name}
-                      fill
-                      className="object-contain p-2"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                  </div>
+                {partner.website ? (
+                  <a
+                    href={partner.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`block bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 cursor-pointer ${rotations[index % rotations.length]}`}
+                  >
+                    {/* Logo Container */}
+                    <div className="relative h-32 mb-4 flex items-center justify-center p-4">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        fill
+                        className="object-contain p-2"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
 
-                  {/* Partner Info */}
-                  <div className="text-center">
-                    <p className="text-base font-semibold text-navy">{partner.subtitle}</p>
-                  </div>
+                    {/* Partner Info */}
+                    <div className="text-center">
+                      <p className="text-base font-semibold text-navy">{partner.subtitle}</p>
+                    </div>
 
-                  {/* Decorative element */}
-                  <div className="mt-4 h-1 w-16 bg-accent rounded-full mx-auto" />
-                </div>
+                    {/* Decorative element */}
+                    <div className="mt-4 h-1 w-16 bg-accent rounded-full mx-auto" />
+                  </a>
+                ) : (
+                  <div className={`bg-white rounded-3xl p-6 lg:p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/30 hover:shadow-xl hover:rotate-0 transition-all duration-300 ${rotations[index % rotations.length]}`}>
+                    {/* Logo Container */}
+                    <div className="relative h-32 mb-4 flex items-center justify-center p-4">
+                      <Image
+                        src={partner.logo}
+                        alt={partner.name}
+                        fill
+                        className="object-contain p-2"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+
+                    {/* Partner Info */}
+                    <div className="text-center">
+                      <p className="text-base font-semibold text-navy">{partner.subtitle}</p>
+                    </div>
+
+                    {/* Decorative element */}
+                    <div className="mt-4 h-1 w-16 bg-accent rounded-full mx-auto" />
+                  </div>
+                )}
               </SwiperSlide>
             ))}
           </Swiper>
