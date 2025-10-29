@@ -362,6 +362,30 @@ export default function AdministrationPage() {
               </a>
             </motion.div>
 
+            {/* Calendrier de l'Avent Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="bg-white rounded-3xl p-8 shadow-lg border-2 border-gray-100 hover:border-secondary/50 hover:shadow-xl transition-all duration-300"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-green-500 rounded-2xl flex items-center justify-center mb-6 -rotate-3">
+                <span className="text-3xl">🎄</span>
+              </div>
+              <h3 className="text-xl font-bold text-navy mb-2">
+                Calendrier de l'Avent
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Gérer les 24 cadeaux du calendrier de l'Avent de Noël
+              </p>
+              <a
+                href="/administration/calendrier-avent"
+                className="block px-6 py-3 bg-accent text-navy font-bold rounded-2xl hover:bg-accent/90 transition-colors w-full text-center"
+              >
+                Gérer le calendrier
+              </a>
+            </motion.div>
+
           </div>
 
           {/* Quick Stats */}
